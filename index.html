@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>CatastroMap Padilla — Red de Agua Potable</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0d1117;--surf:#161b22;--surf2:#21262d;--brd:#30363d;
+  --txt:#e6edf3;--muted:#7d8590;--acc:#1f6feb;
+  --dist:#38bdf8;--za:#f97316;--tt:#a3e635;--zt:#c084fc;
+  --val:#facc15;--cam:#34d399;--pre:#f472b6;
+  --r:6px;--pw:275px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+body{display:flex;flex-direction:column;}
+
+/* TOPBAR */
+#topbar{height:48px;background:var(--surf);border-bottom:1px solid var(--brd);
+  display:flex;align-items:center;padding:0 12px;gap:10px;flex-shrink:0;z-index:2000;}
+.logo{width:26px;height:26px;background:var(--acc);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.titles{flex:1;min-width:0;}
+.apptitle{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.appsub{font-size:10px;color:var(--muted);}
+.badges{display:flex;gap:5px;flex-shrink:0;}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
+.blive{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;gap:3px;}
+.blive::before{content:'';width:5px;height:5px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;}
+.bmun{background:rgba(31,111,235,.12);color:#58a6ff;border:1px solid rgba(31,111,235,.3);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+#btnp{background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
+  width:32px;height:32px;border-radius:var(--r);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* MAIN */
+#main{flex:1;display:flex;overflow:hidden;position:relative;}
+
+/* PANEL */
+#panel{width:var(--pw);background:var(--surf);border-right:1px solid var(--brd);
+  display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
+  transition:width .25s,opacity .25s;flex-shrink:0;z-index:1000;}
+#panel.col{width:0;opacity:0;pointer-events:none;}
+.ps{padding:12px 12px 8px;border-bottom:1px solid var(--brd);flex-shrink:0;}
+.slbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+
+/* BASEMAP */
+.bmgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.bmbtn{background:var(--surf2);border:1px solid var(--brd);color:var(--muted);
+  padding:8px 4px;border-radius:var(--r);cursor:pointer;font-size:10px;font-weight:600;
+  text-align:center;transition:all .15s;line-height:1.4;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.bmbtn:hover{border-color:var(--acc);color:var(--txt);}
+.bmbtn.on{border-color:var(--acc);background:rgba(31,111,235,.15);color:#58a6ff;}
+.bmico{font-size:18px;}
+
+/* LAYER ITEMS */
+.li{display:flex;align-items:center;gap:8px;padding:7px 6px;border-radius:var(--r);
+  cursor:pointer;transition:background .12s;user-select:none;}
+.li:hover{background:var(--surf2);}
+.ldot{flex-shrink:0;transition:opacity .2s;}
+.ldot.circle{width:10px;height:10px;border-radius:50%;}
+.ldot.line{width:18px;height:4px;border-radius:2px;}
+.ldot.square{width:11px;height:11px;border-radius:2px;}
+.llbl{font-size:11px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ltog{width:28px;height:16px;background:var(--surf2);border-radius:8px;border:1px solid var(--brd);
+  position:relative;transition:background .2s;flex-shrink:0;}
+.ltog::after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;
+  border-radius:50%;background:var(--muted);transition:transform .2s,background .2s;}
+.li.on .ltog{background:rgba(31,111,235,.3);border-color:var(--acc);}
+.li.on .ltog::after{transform:translateX(12px);background:var(--acc);}
+.li.off .ldot{opacity:.25;}
+.li.off .llbl{color:var(--muted);}
+
+/* UPLOAD */
+.upload-btn{display:flex;align-items:center;gap:6px;margin-top:6px;
+  background:var(--surf2);border:1px dashed var(--brd);border-radius:var(--r);
+  padding:6px 8px;cursor:pointer;transition:border-color .15s;width:100%;}
+.upload-btn:hover{border-color:var(--acc);}
+.upload-ico{font-size:13px;}
+.upload-lbl{font-size:10px;color:var(--muted);flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.upload-btn.loaded{border-color:var(--cam);border-style:solid;}
+.upload-btn.loaded .upload-lbl{color:var(--cam);}
+input[type=file]{display:none;}
+
+/* PROGRESS */
+.pbwrap{margin-top:8px;}
+.pbwrap+.pbwrap{margin-top:10px;}
+.pbhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.pbtitle{font-size:10px;color:var(--muted);}
+.pbpct{font-size:12px;font-weight:700;color:#34d399;}
+.pbbg{height:5px;background:var(--surf2);border-radius:3px;overflow:hidden;}
+.pbfill{height:100%;background:linear-gradient(90deg,var(--acc),#34d399);border-radius:3px;transition:width 1.2s ease;}
+
+/* STATS */
+.srow{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--brd);}
+.srow:last-child{border-bottom:none;}
+.sname{font-size:10px;color:var(--muted);}
+.sval{font-size:11px;font-weight:600;}
+
+/* MAP */
+#map{flex:1;background:#1a2332;position:relative;}
+#loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#1a2332;z-index:500;gap:12px;}
+.spinner{width:36px;height:36px;border:3px solid var(--brd);border-top-color:var(--acc);
+  border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loadtxt{font-size:12px;color:var(--muted);}
+
+/* Leaflet */
+.leaflet-control-zoom a{background:var(--surf)!important;color:var(--txt)!important;border-color:var(--brd)!important;font-weight:600!important;}
+.leaflet-control-zoom a:hover{background:var(--surf2)!important;}
+.leaflet-control-attribution{background:rgba(13,17,23,.75)!important;color:var(--muted)!important;font-size:9px!important;}
+.leaflet-control-attribution a{color:var(--muted)!important;}
+.leaflet-popup-content-wrapper{background:var(--surf)!important;border:1px solid var(--brd)!important;
+  border-radius:var(--r)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;padding:0!important;color:var(--txt)!important;}
+.leaflet-popup-tip{background:var(--surf)!important;}
+.leaflet-popup-content{margin:0!important;min-width:190px!important;max-width:260px!important;}
+.ph{padding:10px 12px 8px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:7px;}
+.pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ptitle{font-size:12px;font-weight:600;}
+.pb2{padding:8px 12px 10px;max-height:200px;overflow-y:auto;}
+.prow{display:flex;justify-content:space-between;gap:10px;padding:3px 0;}
+.pkey{font-size:10px;color:var(--muted);white-space:nowrap;}
+.pval{font-size:10px;font-weight:600;text-align:right;word-break:break-word;}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);
+  background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
+  padding:9px 18px;border-radius:20px;font-size:11px;font-weight:500;
+  z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* MOBILE */
+@media(max-width:640px){
+  :root{--pw:100vw;}
+  #panel{position:absolute;top:0;left:0;height:100%;box-shadow:4px 0 20px rgba(0,0,0,.6);}
+  #panel.col{width:0;}
+  .bmun{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="logo">P</div>
+  <div class="titles">
+    <div class="apptitle">CatastroMap Padilla</div>
+    <div class="appsub">Red de Agua Potable · Padilla, Chuquisaca</div>
+  </div>
+  <div class="badges">
+    <span class="badge blive">EN OBRA</span>
+    <span class="badge bmun">CHUQUISACA</span>
+  </div>
+  <button id="btnp">☰</button>
+</div>
+
+<div id="main">
+  <div id="panel">
+
+    <!-- MAPA BASE -->
+    <div class="ps">
+      <div class="slbl">Mapa Base</div>
+      <div class="bmgrid">
+        <button class="bmbtn" data-bm="calles"><span class="bmico">🗺️</span>Calles</button>
+        <button class="bmbtn on" data-bm="satelite"><span class="bmico">🛰️</span>Satélite</button>
+        <button class="bmbtn" data-bm="topo"><span class="bmico">⛰️</span>Topográfico</button>
+        <button class="bmbtn" data-bm="oscuro"><span class="bmico">🌑</span>Oscuro</button>
+      </div>
+    </div>
+
+    <!-- CAPAS RED + CARGA DE ARCHIVOS -->
+    <div class="ps">
+      <div class="slbl">Capas de Red</div>
+
+      <div class="li on" data-layer="dist">
+        <div class="ldot line" style="background:var(--dist)"></div>
+        <span class="llbl">Red de Distribución</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-dist" title="Cargar tu GeoJSON real">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar red_distribucion.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="dist"/>
+      </label>
+
+      <div class="li on" data-layer="za" style="margin-top:6px">
+        <div class="ldot line" style="background:var(--za)"></div>
+        <span class="llbl">Zanjas Abiertas</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-za">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar zanjas_abiertas.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="za"/>
+      </label>
+
+      <div class="li on" data-layer="tt" style="margin-top:6px">
+        <div class="ldot line" style="background:var(--tt)"></div>
+        <span class="llbl">Tendido de Tubería</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-tt">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar tendido_tuberia.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="tt"/>
+      </label>
+
+      <div class="li on" data-layer="zt" style="margin-top:6px">
+        <div class="ldot line" style="background:var(--zt)"></div>
+        <span class="llbl">Zanjas Tapadas</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-zt">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar zanjas_tapadas.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="zt"/>
+      </label>
+    </div>
+
+    <!-- INFRAESTRUCTURA -->
+    <div class="ps">
+      <div class="slbl">Infraestructura</div>
+
+      <div class="li on" data-layer="val">
+        <div class="ldot circle" style="background:var(--val)"></div>
+        <span class="llbl">Válvulas y Llaves</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-val">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar valvulas.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="val"/>
+      </label>
+
+      <div class="li on" data-layer="cam" style="margin-top:6px">
+        <div class="ldot circle" style="background:var(--cam)"></div>
+        <span class="llbl">Cámaras de Inspección</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-cam">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar camaras.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="cam"/>
+      </label>
+
+      <div class="li on" data-layer="pre" style="margin-top:6px">
+        <div class="ldot square" style="background:var(--pre)"></div>
+        <span class="llbl">Predios / Acometidas</span>
+        <div class="ltog"></div>
+      </div>
+      <label class="upload-btn" id="ulbl-pre">
+        <span class="upload-ico">📂</span>
+        <span class="upload-lbl">Cargar predios.geojson</span>
+        <input type="file" accept=".geojson,.json" data-target="pre"/>
+      </label>
+    </div>
+
+    <!-- AVANCE -->
+    <div class="ps">
+      <div class="slbl">Avance de Obra</div>
+      <div class="pbwrap">
+        <div class="pbhead"><span class="pbtitle">Avance General</span><span class="pbpct" id="pg">0%</span></div>
+        <div class="pbbg"><div class="pbfill" id="bg" style="width:0%"></div></div>
+      </div>
+      <div class="pbwrap">
+        <div class="pbhead"><span class="pbtitle">Zanjas Tapadas / Total</span><span class="pbpct" id="pz">0%</span></div>
+        <div class="pbbg"><div class="pbfill" id="bz" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- ESTADÍSTICAS -->
+    <div class="ps">
+      <div class="slbl">Estadísticas</div>
+      <div class="srow"><span class="sname">Red distribución</span><span class="sval" id="sd">demo</span></div>
+      <div class="srow"><span class="sname">Zanjas abiertas</span><span class="sval" id="sza">demo</span></div>
+      <div class="srow"><span class="sname">Tendido tubería</span><span class="sval" id="stt">demo</span></div>
+      <div class="srow"><span class="sname">Zanjas tapadas</span><span class="sval" id="szt">demo</span></div>
+      <div class="srow"><span class="sname">Válvulas</span><span class="sval" id="sv">demo</span></div>
+      <div class="srow"><span class="sname">Cámaras</span><span class="sval" id="sc">demo</span></div>
+      <div class="srow"><span class="sname">Acometidas</span><span class="sval" id="sp">demo</span></div>
+    </div>
+
+  </div><!-- /panel -->
+
+  <div id="map">
+    <div id="loading">
+      <div class="spinner"></div>
+      <span class="loadtxt">Cargando mapa…</span>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script>
+(function(){
+  var s=document.createElement('script');
+  s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  s.onload=initApp;
+  s.onerror=function(){
+    document.getElementById('loading').innerHTML=
+      '<span style="color:#f97316;font-size:12px;text-align:center;padding:20px">'+
+      '⚠️ Sin conexión.<br>Verifica internet y recarga.</span>';
+  };
+  document.head.appendChild(s);
+})();
+
+function initApp(){
+  document.getElementById('loading').style.display='none';
+
+  const C=[-19.3069,-64.3036];
+  const map=L.map('map',{center:C,zoom:15});
+
+  /* ── TILES ── */
+  const TILES={
+    calles:  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}),
+    satelite:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© Esri World Imagery',maxZoom:19}),
+    topo:    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{attribution:'© OpenTopoMap',maxZoom:17}),
+    oscuro:  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© CartoDB',maxZoom:19}),
+  };
+  let base=TILES.satelite; base.addTo(map);
+
+  /* ── ESTILOS ── */
+  const ST={
+    dist:{color:'#38bdf8',weight:3,opacity:.9},
+    za:  {color:'#f97316',weight:4,opacity:1,dashArray:'8 4'},
+    tt:  {color:'#a3e635',weight:3,opacity:1,dashArray:'4 3'},
+    zt:  {color:'#c084fc',weight:3,opacity:.9},
+    pre: {color:'#f472b6',weight:1,opacity:.8,fillColor:'#f472b6',fillOpacity:.12},
+  };
+  const COLORS={dist:'#38bdf8',za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
+  const LABELS={dist:'Red de Distribución',za:'Zanja Abierta',tt:'Tendido de Tubería',
+                zt:'Zanja Tapada',val:'Válvula',cam:'Cámara',pre:'Predio / Acometida'};
+
+  /* ── HELPERS ── */
+  function ico(color,sym){
+    return L.divIcon({
+      html:`<div style="width:22px;height:22px;background:${color};border:2px solid rgba(255,255,255,.3);
+        border-radius:50%;display:flex;align-items:center;justify-content:center;
+        font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.7)">${sym}</div>`,
+      iconSize:[22,22],iconAnchor:[11,11],className:''
+    });
+  }
+  function popup(key,props){
+    const filas=Object.entries(props)
+      .filter(([,v])=>v!==null&&v!==undefined&&v!=='')
+      .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`)
+      .join('');
+    return`<div class="ph"><div class="pdot" style="background:${COLORS[key]}"></div>
+      <div class="ptitle">${LABELS[key]}</div></div><div class="pb2">${filas||'<span style="font-size:10px;color:var(--muted)">Sin atributos</span>'}</div>`;
+  }
+  function lng(geo){
+    let t=0;
+    (geo.features||[]).forEach(f=>{
+      if(!f.geometry)return;
+      const c=f.geometry.type==='LineString'?f.geometry.coordinates:
+              f.geometry.type==='MultiLineString'?f.geometry.coordinates.flat():[];
+      for(let i=0;i<c.length-1;i++)t+=L.latLng(c[i][1],c[i][0]).distanceTo(L.latLng(c[i+1][1],c[i+1][0]));
+    });return Math.round(t);
+  }
+  function fmt(m){return m>=1000?(m/1000).toFixed(2)+' km':m+' m';}
+
+  /* ── DATOS DEMO ── */
+  const B=C;
+  function lin(dx1,dy1,dx2,dy2,n,p){
+    n=n||7;const c=[];
+    for(let i=0;i<=n;i++){const t=i/n;c.push([B[1]+dx1+(dx2-dx1)*t+(Math.random()-.5)*.00015,B[0]+dy1+(dy2-dy1)*t+(Math.random()-.5)*.00015]);}
+    return{type:'Feature',geometry:{type:'LineString',coordinates:c},properties:p||{}};
+  }
+  const DEMO={
+    dist:{type:'FeatureCollection',features:[
+      lin(-.006,-.009, .006,-.009,9,{id:'T-001',diametro:'110 mm',material:'PVC',estado:'Existente',presion:'4.5 bar'}),
+      lin(-.006, .006,  .006, .006,9,{id:'T-002',diametro:'63 mm',material:'PVC',estado:'Existente',presion:'3.2 bar'}),
+      lin(-.004,-.009, -.004, .007,9,{id:'T-003',diametro:'90 mm',material:'HDPE',estado:'Existente',presion:'3.8 bar'}),
+      lin( .004,-.009,  .004, .007,9,{id:'T-004',diametro:'63 mm',material:'PVC',estado:'Proyectado'}),
+      lin(-.006,-.009, -.006, .007,7,{id:'T-005',diametro:'75 mm',material:'PVC',estado:'Existente',presion:'3.5 bar'}),
+    ]},
+    za:{type:'FeatureCollection',features:[
+      lin( .001,-.002, .005, .001,6,{id:'ZA-001',longitud:'480 m',profundidad:'1.2 m',cuadrilla:'A',capataz:'Pedro Quispe',fecha_inicio:'2025-10-08'}),
+      lin( .000, .002, .005, .004,5,{id:'ZA-002',longitud:'340 m',profundidad:'1.0 m',cuadrilla:'B',capataz:'Mario Condori',fecha_inicio:'2025-10-10',nota:'Suelo rocoso'}),
+      lin(-.003, .001,-.001, .005,5,{id:'ZA-003',longitud:'280 m',profundidad:'1.3 m',cuadrilla:'C',capataz:'Luis Mamani',fecha_inicio:'2025-10-11'}),
+    ]},
+    tt:{type:'FeatureCollection',features:[
+      lin(-.006,-.009,-.002,-.004,6,{id:'TT-001',diametro:'110 mm',material:'PVC',clase:'PN-10',fecha:'2025-10-02',cuadrilla:'A',prueba:'Aprobada'}),
+      lin(-.002,-.004, .002,-.001,5,{id:'TT-002',diametro:'90 mm',material:'PVC',clase:'PN-10',fecha:'2025-10-04',cuadrilla:'A',prueba:'Pendiente'}),
+      lin(-.004,-.009,-.004,-.003,5,{id:'TT-003',diametro:'63 mm',material:'PVC',clase:'PN-6',fecha:'2025-10-06',cuadrilla:'B',prueba:'Pendiente'}),
+    ]},
+    zt:{type:'FeatureCollection',features:[
+      lin(-.006,-.009,-.005,-.006,4,{id:'ZT-001',longitud:'220 m',relleno:'Asfalto frío',capas:'4',fecha_tapado:'2025-10-05',cuadrilla:'A'}),
+      lin(-.005,-.006,-.006,-.003,4,{id:'ZT-002',longitud:'190 m',relleno:'Material propio',capas:'3',fecha_tapado:'2025-10-07',cuadrilla:'A'}),
+      lin( .004,-.009, .004,-.005,4,{id:'ZT-003',longitud:'175 m',relleno:'Material propio',capas:'3',fecha_tapado:'2025-10-09',cuadrilla:'C'}),
+    ]},
+    val:{type:'FeatureCollection',features:[
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.006,B[0]-.009]},properties:{id:'V-001',tipo:'Compuerta',diametro:'110 mm',posicion:'Abierta',estado:'Operativa'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1],B[0]-.009]},properties:{id:'V-002',tipo:'Compuerta',diametro:'90 mm',posicion:'Abierta',estado:'Operativa'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.004,B[0]-.009]},properties:{id:'V-003',tipo:'Compuerta',diametro:'63 mm',posicion:'Cerrada',estado:'Instalada'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.002,B[0]+.004]},properties:{id:'V-004',tipo:'Purga',diametro:'25 mm',posicion:'Cerrada',estado:'Operativa'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.002,B[0]+.005]},properties:{id:'V-005',tipo:'Aire',diametro:'25 mm',posicion:'Auto',estado:'Pendiente'}},
+    ]},
+    cam:{type:'FeatureCollection',features:[
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.006,B[0]-.012]},properties:{id:'CR-001',tipo:'Rompe-Presión',codigo:'CRP-01',capacidad:'5 m³',cota:'2180 msnm',estado:'Operativa',p_entrada:'8.2 bar',p_salida:'4.5 bar'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.001,B[0]-.002]},properties:{id:'CI-001',tipo:'Inspección',codigo:'CIN-01',cota:'2155 msnm',estado:'Construida',fecha:'2025-10-05'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.003,B[0]+.002]},properties:{id:'CR-002',tipo:'Rompe-Presión',codigo:'CRP-02',capacidad:'3 m³',cota:'2140 msnm',estado:'Pendiente'}},
+      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.003,B[0]+.004]},properties:{id:'CI-002',tipo:'Inspección',codigo:'CIN-02',cota:'2148 msnm',estado:'Construida',fecha:'2025-10-08'}},
+    ]},
+    pre:{type:'FeatureCollection',features:[
+      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]-.003,B[0]-.001],[B[1]-.001,B[0]-.001],[B[1]-.001,B[0]+.002],[B[1]-.003,B[0]+.002],[B[1]-.003,B[0]-.001]]]},properties:{id:'P-001',catastro:'PAD-15-001',propietario:'Juan C. Mamani',uso:'Residencial',area:'220 m²',acometida:'Instalada',medidor:'MED-0042'}},
+      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]+.001,B[0]-.001],[B[1]+.003,B[0]-.001],[B[1]+.003,B[0]+.001],[B[1]+.001,B[0]+.001],[B[1]+.001,B[0]-.001]]]},properties:{id:'P-002',catastro:'PAD-15-002',propietario:'María E. Flores',uso:'Residencial',area:'185 m²',acometida:'Pendiente'}},
+      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]-.001,B[0]+.003],[B[1]+.001,B[0]+.003],[B[1]+.001,B[0]+.005],[B[1]-.001,B[0]+.005],[B[1]-.001,B[0]+.003]]]},properties:{id:'P-003',catastro:'PAD-15-003',propietario:'Centro de Salud Municipal',uso:'Salud',area:'480 m²',acometida:'Instalada',medidor:'MED-0010'}},
+      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]+.003,B[0]+.002],[B[1]+.005,B[0]+.002],[B[1]+.005,B[0]+.004],[B[1]+.003,B[0]+.004],[B[1]+.003,B[0]+.002]]]},properties:{id:'P-004',catastro:'PAD-15-004',propietario:'Cooperativa Escolar',uso:'Educativo',area:'650 m²',acometida:'Pendiente'}},
+    ]},
+  };
+
+  /* ── RENDER CAPAS ── */
+  const LYR={};
+  function renderLayer(key,geo){
+    if(LYR[key]) map.removeLayer(LYR[key]);
+    if(key==='val'){
+      LYR[key]=L.geoJSON(geo,{pointToLayer:(f,ll)=>L.marker(ll,{icon:ico('#facc15','⚙')}),
+        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
+    } else if(key==='cam'){
+      LYR[key]=L.geoJSON(geo,{pointToLayer:(f,ll)=>L.marker(ll,{icon:ico('#34d399','◉')}),
+        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
+    } else {
+      LYR[key]=L.geoJSON(geo,{style:ST[key]||{color:'#aaa',weight:2},
+        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
+    }
+    // si el toggle está off, ocultamos inmediatamente
+    const el=document.querySelector(`.li[data-layer="${key}"]`);
+    if(el && el.classList.contains('off')) map.removeLayer(LYR[key]);
+  }
+
+  // Cargar demo
+  Object.keys(DEMO).forEach(k=>renderLayer(k,DEMO[k]));
+
+  // Estadísticas
+  function updateStats(key,geo){
+    const ids={dist:'sd',za:'sza',tt:'stt',zt:'szt',val:'sv',cam:'sc',pre:'sp'};
+    const el=document.getElementById(ids[key]);
+    if(!el)return;
+    if(['val','cam','pre'].includes(key)){
+      if(key==='pre') el.textContent=(geo.features||[]).length+' predios';
+      else el.textContent=(geo.features||[]).length+' unid.';
+    } else {
+      el.textContent=fmt(lng(geo));
+    }
+  }
+  Object.keys(DEMO).forEach(k=>updateStats(k,DEMO[k]));
+
+  function updateProgress(){
+    const dD=lng(DEMO.dist),dZA=lng(DEMO.za),dTT=lng(DEMO.tt),dZT=lng(DEMO.zt);
+    const tot=dZA+dTT+dZT;
+    const pz=tot>0?Math.round(dZT/tot*100):0;
+    const pg=Math.min(Math.round((dZT+dTT*.5)/(dD||1)*100),100);
+    document.getElementById('pz').textContent=pz+'%'; document.getElementById('bz').style.width=pz+'%';
+    document.getElementById('pg').textContent=pg+'%'; document.getElementById('bg').style.width=pg+'%';
+  }
+  setTimeout(updateProgress,500);
+
+  /* ── CARGA DE ARCHIVOS REALES ── */
+  document.querySelectorAll('input[type=file]').forEach(inp=>{
+    inp.addEventListener('change',function(){
+      const key=this.dataset.target;
+      const file=this.files[0];
+      if(!file)return;
+      const lbl=document.getElementById('ulbl-'+key);
+      const reader=new FileReader();
+      reader.onload=function(e){
+        try{
+          const geo=JSON.parse(e.target.result);
+          if(!geo.type||!geo.features)throw new Error('No es GeoJSON válido');
+          DEMO[key]=geo; // actualiza la fuente de datos
+          renderLayer(key,geo);
+          updateStats(key,geo);
+          updateProgress();
+          if(lbl){lbl.classList.add('loaded');lbl.querySelector('.upload-lbl').textContent='✓ '+file.name;}
+          toast('✅ Cargado: '+file.name+' ('+geo.features.length+' elementos)');
+          // zoom a la capa cargada
+          try{const b=LYR[key].getBounds();if(b.isValid())map.fitBounds(b,{padding:[30,30]});}catch(e){}
+        }catch(err){
+          toast('⚠️ Error: '+err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+  });
+
+  /* ── TOGGLE CAPAS ── */
+  document.querySelectorAll('.li').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const k=el.dataset.layer,lyr=LYR[k];
+      if(!lyr)return;
+      if(el.classList.contains('on')){
+        el.classList.replace('on','off');
+        map.removeLayer(lyr);
+        toast('🚫 Oculto: '+el.querySelector('.llbl').textContent);
+      } else {
+        el.classList.replace('off','on');
+        map.addLayer(lyr);
+        toast('✅ Visible: '+el.querySelector('.llbl').textContent);
+      }
+    });
+  });
+
+  /* ── MAPA BASE ── */
+  document.querySelectorAll('.bmbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      map.removeLayer(base);
+      base=TILES[btn.dataset.bm];
+      base.addTo(map);
+      Object.values(LYR).forEach(l=>{try{l.bringToFront();}catch(e){}});
+      document.querySelectorAll('.bmbtn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      toast('🗺️ Mapa base: '+btn.textContent.trim());
+    });
+  });
+
+  /* ── PANEL ── */
+  document.getElementById('btnp').addEventListener('click',()=>{
+    document.getElementById('panel').classList.toggle('col');
+    setTimeout(()=>map.invalidateSize(),280);
+  });
+  map.on('click',()=>{
+    if(window.innerWidth<=640){
+      document.getElementById('panel').classList.add('col');
+      setTimeout(()=>map.invalidateSize(),280);
+    }
+  });
+
+  /* ── TOAST ── */
+  let _tt;
+  window.toast=function(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;t.classList.add('show');
+    clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2200);
+  };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "type": "FeatureCollection",
+  "name": "zanjas_tapadas",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3046, -19.3046],
+          [-64.3040, -19.3047],
+          [-64.3034, -19.3048],
+          [-64.3030, -19.3050]
+        ]
+      },
+      "properties": {
+        "id": "ZT-001",
+        "tramo": "Ramal Norte Tramo Final",
+        "longitud_m": 290,
+        "fecha_tapado": "2025-10-07",
+        "material_relleno": "Material propio compactado",
+        "capas_compactacion": 3,
+        "prueba_presion": "Aprobada",
+        "cuadrilla": "Cuadrilla A",
+        "capataz": "Pedro Quispe",
+        "reposicion_pavimento": "No aplica",
+        "estado": "Terminado",
+        "observacion": "Tramo completado y habilitado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3070, -19.3040],
+          [-64.3068, -19.3038],
+          [-64.3065, -19.3035]
+        ]
+      },
+      "properties": {
+        "id": "ZT-002",
+        "tramo": "Captación - Inicio Aducción",
+        "longitud_m": 195,
+        "fecha_tapado": "2025-10-05",
+        "material_relleno": "Arena y material selecto",
+        "capas_compactacion": 4,
+        "prueba_presion": "Aprobada",
+        "cuadrilla": "Cuadrilla A",
+        "capataz": "Pedro Quispe",
+        "reposicion_pavimento": "Asfalto frío",
+        "estado": "Terminado",
+        "observacion": "Reposición de pavimento completada"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3062, -19.3042],
+          [-64.3062, -19.3050],
+          [-64.3062, -19.3055]
+        ]
+      },
+      "properties": {
+        "id": "ZT-003",
+        "tramo": "Ramal Este Inicio",
+        "longitud_m": 145,
+        "fecha_tapado": "2025-10-09",
+        "material_relleno": "Material propio compactado",
+        "capas_compactacion": 3,
+        "prueba_presion": "Aprobada",
+        "cuadrilla": "Cuadrilla C",
+        "capataz": "Luis Mamani",
+        "reposicion_pavimento": "No aplica",
+        "estado": "Terminado",
+        "observacion": "Sin novedad"
+      }
+    }
+  ]
+}

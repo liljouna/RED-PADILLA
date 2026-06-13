@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "name": "tendido_tuberia",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3070, -19.3040],
+          [-64.3063, -19.3041],
+          [-64.3058, -19.3042]
+        ]
+      },
+      "properties": {
+        "id": "TT-001",
+        "tramo": "Aducción Principal Inicio",
+        "diametro_mm": 110,
+        "material": "PVC",
+        "clase_tuberia": "PN-10",
+        "longitud_m": 230,
+        "fecha_tendido": "2025-10-02",
+        "cuadrilla": "Cuadrilla A",
+        "capataz": "Pedro Quispe",
+        "junta": "Espiga-Campana",
+        "estado": "Tendido sin tapar",
+        "prueba_presion": "Pendiente",
+        "observacion": "Tubería colocada, falta prueba hidráulica"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3058, -19.3042],
+          [-64.3052, -19.3044],
+          [-64.3046, -19.3046]
+        ]
+      },
+      "properties": {
+        "id": "TT-002",
+        "tramo": "Ramal Norte Tramo 2",
+        "diametro_mm": 90,
+        "material": "PVC",
+        "clase_tuberia": "PN-10",
+        "longitud_m": 195,
+        "fecha_tendido": "2025-10-04",
+        "cuadrilla": "Cuadrilla A",
+        "capataz": "Pedro Quispe",
+        "junta": "Espiga-Campana",
+        "estado": "Tendido sin tapar",
+        "prueba_presion": "Aprobada",
+        "observacion": "Prueba hidráulica realizada el 06-10-2025"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3030, -19.3050],
+          [-64.3027, -19.3058],
+          [-64.3024, -19.3066]
+        ]
+      },
+      "properties": {
+        "id": "TT-003",
+        "tramo": "Ramal Sur Tramo 1",
+        "diametro_mm": 63,
+        "material": "PVC",
+        "clase_tuberia": "PN-6",
+        "longitud_m": 185,
+        "fecha_tendido": "2025-10-06",
+        "cuadrilla": "Cuadrilla B",
+        "capataz": "Mario Condori",
+        "junta": "Espiga-Campana",
+        "estado": "Tendido sin tapar",
+        "prueba_presion": "Pendiente",
+        "observacion": "Instalación de válvulas en curso"
+      }
+    }
+  ]
+}

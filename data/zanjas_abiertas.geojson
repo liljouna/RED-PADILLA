@@ -1,0 +1,76 @@
+{
+  "type": "FeatureCollection",
+  "name": "zanjas_abiertas",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3042, -19.3083],
+          [-64.3040, -19.3075],
+          [-64.3038, -19.3068]
+        ]
+      },
+      "properties": {
+        "id": "ZA-001",
+        "tramo": "Tramo Norte-Mercado",
+        "longitud_m": 175,
+        "profundidad_m": 1.2,
+        "ancho_m": 0.6,
+        "fecha_inicio": "2025-10-08",
+        "cuadrilla": "Cuadrilla A",
+        "capataz": "Pedro Quispe",
+        "estado": "Abierta",
+        "observacion": "Excavación activa, sin inconvenientes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3055, -19.3083],
+          [-64.3053, -19.3075],
+          [-64.3053, -19.3070]
+        ]
+      },
+      "properties": {
+        "id": "ZA-002",
+        "tramo": "Tramo Central Sur",
+        "longitud_m": 145,
+        "profundidad_m": 1.0,
+        "ancho_m": 0.6,
+        "fecha_inicio": "2025-10-10",
+        "cuadrilla": "Cuadrilla B",
+        "capataz": "Mario Condori",
+        "estado": "Abierta",
+        "observacion": "Suelo rocoso, avance lento"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-64.3018, -19.3080],
+          [-64.3020, -19.3072],
+          [-64.3021, -19.3065]
+        ]
+      },
+      "properties": {
+        "id": "ZA-003",
+        "tramo": "Tramo Este-Residencial",
+        "longitud_m": 165,
+        "profundidad_m": 1.3,
+        "ancho_m": 0.6,
+        "fecha_inicio": "2025-10-11",
+        "cuadrilla": "Cuadrilla C",
+        "capataz": "Luis Mamani",
+        "estado": "Abierta",
+        "observacion": "Cruce de calle principal, señalizar"
+      }
+    }
+  ]
+}

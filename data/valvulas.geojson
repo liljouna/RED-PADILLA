@@ -1,0 +1,109 @@
+{
+  "type": "FeatureCollection",
+  "name": "valvulas",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3070, -19.3040] },
+      "properties": {
+        "id": "V-001",
+        "tipo": "Válvula de Compuerta",
+        "diametro_mm": 110,
+        "marca": "VALTEC",
+        "material_cuerpo": "Hierro Dúctil",
+        "posicion": "Abierta",
+        "profundidad_m": 1.2,
+        "fecha_instalacion": "2025-10-02",
+        "estado": "Operativa",
+        "funcion": "Inicio de red principal",
+        "observacion": "Caja de válvula instalada"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3030, -19.3050] },
+      "properties": {
+        "id": "V-002",
+        "tipo": "Válvula de Compuerta",
+        "diametro_mm": 90,
+        "marca": "VALTEC",
+        "material_cuerpo": "Hierro Dúctil",
+        "posicion": "Abierta",
+        "profundidad_m": 1.1,
+        "fecha_instalacion": "2025-10-05",
+        "estado": "Operativa",
+        "funcion": "Bifurcación ramal sur",
+        "observacion": "Nodo de distribución principal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3060, -19.3042] },
+      "properties": {
+        "id": "V-003",
+        "tipo": "Válvula de Mariposa",
+        "diametro_mm": 63,
+        "marca": "SOCLA",
+        "material_cuerpo": "PVC",
+        "posicion": "Cerrada",
+        "profundidad_m": 0.9,
+        "fecha_instalacion": "2025-10-06",
+        "estado": "Instalada - pendiente prueba",
+        "funcion": "Control ramal este",
+        "observacion": "Pendiente conexión definitiva"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3020, -19.3070] },
+      "properties": {
+        "id": "V-004",
+        "tipo": "Válvula de Purga",
+        "diametro_mm": 25,
+        "marca": "GENÉRICA",
+        "material_cuerpo": "Bronce",
+        "posicion": "Cerrada",
+        "profundidad_m": 0.8,
+        "fecha_instalacion": "2025-10-07",
+        "estado": "Operativa",
+        "funcion": "Purga punto bajo red",
+        "observacion": "Punto bajo de la red, necesaria"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3050, -19.3045] },
+      "properties": {
+        "id": "V-005",
+        "tipo": "Válvula de Aire",
+        "diametro_mm": 25,
+        "marca": "ARI",
+        "material_cuerpo": "Hierro Dúctil",
+        "posicion": "Automática",
+        "profundidad_m": 0.0,
+        "fecha_instalacion": null,
+        "estado": "Pendiente instalación",
+        "funcion": "Purga de aire punto alto",
+        "observacion": "Programada para semana próxima"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3018, -19.3080] },
+      "properties": {
+        "id": "V-006",
+        "tipo": "Llave de Paso Domiciliaria",
+        "diametro_mm": 20,
+        "marca": "GENÉRICA",
+        "material_cuerpo": "Bronce",
+        "posicion": "Abierta",
+        "profundidad_m": 0.6,
+        "fecha_instalacion": "2025-10-09",
+        "estado": "Operativa",
+        "funcion": "Control acometida P-001",
+        "observacion": "Primer domicilio conectado"
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "type": "FeatureCollection",
+  "name": "camaras",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3065, -19.3035] },
+      "properties": {
+        "id": "CR-001",
+        "tipo": "Cámara Rompe-Presión",
+        "codigo": "CRP-01",
+        "capacidad_m3": 5.0,
+        "cota_m": 2180,
+        "dimensiones": "2.0 x 1.5 x 1.8 m",
+        "material": "Hormigón armado",
+        "fecha_construccion": "2025-09-25",
+        "estado": "Operativa",
+        "presion_entrada_bar": 8.2,
+        "presion_salida_bar": 4.5,
+        "observacion": "Reduce presión de la aducción principal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3040, -19.3060] },
+      "properties": {
+        "id": "CI-001",
+        "tipo": "Cámara de Inspección",
+        "codigo": "CIN-01",
+        "capacidad_m3": 0,
+        "cota_m": 2155,
+        "dimensiones": "1.0 x 1.0 x 1.5 m",
+        "material": "Ladrillo y hormigón",
+        "fecha_construccion": "2025-10-05",
+        "estado": "Construida",
+        "presion_entrada_bar": 3.8,
+        "presion_salida_bar": 3.8,
+        "observacion": "Punto de inspección y bifurcación"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3025, -19.3065] },
+      "properties": {
+        "id": "CR-002",
+        "tipo": "Cámara Rompe-Presión",
+        "codigo": "CRP-02",
+        "capacidad_m3": 3.0,
+        "cota_m": 2140,
+        "dimensiones": "1.5 x 1.2 x 1.8 m",
+        "material": "Hormigón armado",
+        "fecha_construccion": null,
+        "estado": "Pendiente construcción",
+        "presion_entrada_bar": null,
+        "presion_salida_bar": null,
+        "observacion": "Programada para Semana 3 de octubre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-64.3055, -19.3070] },
+      "properties": {
+        "id": "CI-002",
+        "tipo": "Cámara de Inspección",
+        "codigo": "CIN-02",
+        "capacidad_m3": 0,
+        "cota_m": 2148,
+        "dimensiones": "1.0 x 1.0 x 1.2 m",
+        "material": "Ladrillo y hormigón",
+        "fecha_construccion": "2025-10-08",
+        "estado": "Construida",
+        "presion_entrada_bar": 3.2,
+        "presion_salida_bar": 3.2,
+        "observacion": "Sin novedad"
+      }
+    }
+  ]
+}
