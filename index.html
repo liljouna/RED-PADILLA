@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
 <title>CatastroMap Padilla — Red de Agua Potable</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -10,29 +10,28 @@
   --bg:#0d1117;--surf:#161b22;--surf2:#21262d;--brd:#30363d;
   --txt:#e6edf3;--muted:#7d8590;--acc:#1f6feb;
   --dist:#38bdf8;--za:#f97316;--tt:#a3e635;--zt:#c084fc;
-  --val:#facc15;--cam:#34d399;--pre:#f472b6;
-  --r:6px;--pw:275px;
+  --val:#facc15;--cam:#34d399;--pre:#f472b6;--r:8px;--pw:280px;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 body{display:flex;flex-direction:column;}
 
 /* TOPBAR */
-#topbar{height:48px;background:var(--surf);border-bottom:1px solid var(--brd);
+#topbar{height:50px;background:var(--surf);border-bottom:1px solid var(--brd);
   display:flex;align-items:center;padding:0 12px;gap:10px;flex-shrink:0;z-index:2000;}
-.logo{width:26px;height:26px;background:var(--acc);border-radius:4px;
-  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.logo{width:28px;height:28px;background:var(--acc);border-radius:5px;display:flex;
+  align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
 .titles{flex:1;min-width:0;}
-.apptitle{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.apptitle{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .appsub{font-size:10px;color:var(--muted);}
 .badges{display:flex;gap:5px;flex-shrink:0;}
-.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
-.blive{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;gap:3px;}
-.blive::before{content:'';width:5px;height:5px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;}
+.badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
+.blive{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;gap:4px;}
+.blive::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;}
 .bmun{background:rgba(31,111,235,.12);color:#58a6ff;border:1px solid rgba(31,111,235,.3);}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 #btnp{background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
-  width:32px;height:32px;border-radius:var(--r);cursor:pointer;font-size:16px;
+  width:34px;height:34px;border-radius:var(--r);cursor:pointer;font-size:18px;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
 /* MAIN */
@@ -43,100 +42,191 @@ body{display:flex;flex-direction:column;}
   display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
   transition:width .25s,opacity .25s;flex-shrink:0;z-index:1000;}
 #panel.col{width:0;opacity:0;pointer-events:none;}
-.ps{padding:12px 12px 8px;border-bottom:1px solid var(--brd);flex-shrink:0;}
-.slbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.ps{padding:12px;border-bottom:1px solid var(--brd);flex-shrink:0;}
+.slbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:2px;}
+.tab{flex:1;padding:7px 4px;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);
+  cursor:pointer;font-size:10px;font-weight:600;color:var(--muted);text-align:center;transition:all .15s;}
+.tab.on{background:rgba(31,111,235,.2);border-color:var(--acc);color:#58a6ff;}
 
 /* BASEMAP */
 .bmgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
 .bmbtn{background:var(--surf2);border:1px solid var(--brd);color:var(--muted);
   padding:8px 4px;border-radius:var(--r);cursor:pointer;font-size:10px;font-weight:600;
-  text-align:center;transition:all .15s;line-height:1.4;display:flex;flex-direction:column;align-items:center;gap:2px;}
-.bmbtn:hover{border-color:var(--acc);color:var(--txt);}
+  text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bmbtn:hover,.bmbtn:active{border-color:var(--acc);color:var(--txt);}
 .bmbtn.on{border-color:var(--acc);background:rgba(31,111,235,.15);color:#58a6ff;}
-.bmico{font-size:18px;}
+.bmico{font-size:20px;}
 
 /* LAYER ITEMS */
-.li{display:flex;align-items:center;gap:8px;padding:7px 6px;border-radius:var(--r);
-  cursor:pointer;transition:background .12s;user-select:none;}
-.li:hover{background:var(--surf2);}
+.li{display:flex;align-items:center;gap:8px;padding:8px 6px;border-radius:var(--r);
+  cursor:pointer;transition:background .12s;user-select:none;-webkit-user-select:none;}
+.li:active{background:var(--surf2);}
 .ldot{flex-shrink:0;transition:opacity .2s;}
-.ldot.circle{width:10px;height:10px;border-radius:50%;}
-.ldot.line{width:18px;height:4px;border-radius:2px;}
-.ldot.square{width:11px;height:11px;border-radius:2px;}
-.llbl{font-size:11px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ltog{width:28px;height:16px;background:var(--surf2);border-radius:8px;border:1px solid var(--brd);
+.ldot.circle{width:11px;height:11px;border-radius:50%;}
+.ldot.line{width:18px;height:5px;border-radius:2px;}
+.ldot.square{width:12px;height:12px;border-radius:2px;}
+.llbl{font-size:12px;font-weight:500;flex:1;}
+.lcount{font-size:10px;color:var(--muted);background:var(--surf2);padding:1px 6px;border-radius:10px;}
+.ltog{width:30px;height:17px;background:var(--surf2);border-radius:9px;border:1px solid var(--brd);
   position:relative;transition:background .2s;flex-shrink:0;}
-.ltog::after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;
+.ltog::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;
   border-radius:50%;background:var(--muted);transition:transform .2s,background .2s;}
 .li.on .ltog{background:rgba(31,111,235,.3);border-color:var(--acc);}
-.li.on .ltog::after{transform:translateX(12px);background:var(--acc);}
-.li.off .ldot{opacity:.25;}
+.li.on .ltog::after{transform:translateX(13px);background:var(--acc);}
+.li.off .ldot{opacity:.2;}
 .li.off .llbl{color:var(--muted);}
 
 /* UPLOAD */
-.upload-btn{display:flex;align-items:center;gap:6px;margin-top:6px;
+.ulbl{display:flex;align-items:center;gap:6px;margin-top:5px;
   background:var(--surf2);border:1px dashed var(--brd);border-radius:var(--r);
-  padding:6px 8px;cursor:pointer;transition:border-color .15s;width:100%;}
-.upload-btn:hover{border-color:var(--acc);}
-.upload-ico{font-size:13px;}
-.upload-lbl{font-size:10px;color:var(--muted);flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.upload-btn.loaded{border-color:var(--cam);border-style:solid;}
-.upload-btn.loaded .upload-lbl{color:var(--cam);}
+  padding:7px 8px;cursor:pointer;width:100%;transition:border-color .15s;}
+.ulbl:hover{border-color:var(--acc);}
+.ulbl.loaded{border-color:var(--cam);border-style:solid;}
+.ulbl.loaded .utxt{color:var(--cam);}
+.uico{font-size:13px;}
+.utxt{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 input[type=file]{display:none;}
 
 /* PROGRESS */
-.pbwrap{margin-top:8px;}
-.pbwrap+.pbwrap{margin-top:10px;}
-.pbhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.pbtitle{font-size:10px;color:var(--muted);}
-.pbpct{font-size:12px;font-weight:700;color:#34d399;}
-.pbbg{height:5px;background:var(--surf2);border-radius:3px;overflow:hidden;}
-.pbfill{height:100%;background:linear-gradient(90deg,var(--acc),#34d399);border-radius:3px;transition:width 1.2s ease;}
+.pbw{margin-top:6px;}
+.pbw+.pbw{margin-top:10px;}
+.pbh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.pbt{font-size:10px;color:var(--muted);}
+.pbp{font-size:13px;font-weight:700;color:#34d399;}
+.pbb{height:6px;background:var(--surf2);border-radius:3px;overflow:hidden;}
+.pbf{height:100%;background:linear-gradient(90deg,var(--acc),#34d399);border-radius:3px;transition:width 1.2s ease;}
 
 /* STATS */
-.srow{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--brd);}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--brd);}
 .srow:last-child{border-bottom:none;}
 .sname{font-size:10px;color:var(--muted);}
-.sval{font-size:11px;font-weight:600;}
+.sval{font-size:11px;font-weight:700;}
+
+/* ══ PANEL REGISTRO ══ */
+#regpanel{display:none;padding:0;}
+#regpanel.open{display:block;}
+
+.reg-section{padding:12px;}
+.reg-section+.reg-section{border-top:1px solid var(--brd);}
+
+.field-label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.06em;}
+
+select,input[type=text],input[type=number],textarea{
+  width:100%;background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
+  border-radius:var(--r);padding:8px 10px;font-size:12px;outline:none;
+  font-family:inherit;transition:border-color .15s;}
+select:focus,input:focus,textarea:focus{border-color:var(--acc);}
+textarea{resize:vertical;min-height:60px;}
+
+.field{margin-bottom:10px;}
+.field:last-child{margin-bottom:0;}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* ESTADO CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{padding:5px 10px;border-radius:20px;border:1px solid var(--brd);font-size:10px;
+  font-weight:600;cursor:pointer;background:var(--surf2);color:var(--muted);transition:all .15s;}
+.chip:active{transform:scale(.96);}
+.chip.sel{color:#fff;}
+.chip[data-v="Zanja Abierta"].sel{background:#f97316;border-color:#f97316;}
+.chip[data-v="Tendido"].sel{background:#a3e635;border-color:#a3e635;color:#000;}
+.chip[data-v="Zanja Tapada"].sel{background:#c084fc;border-color:#c084fc;}
+.chip[data-v="Abierta"].sel{background:#34d399;border-color:#34d399;color:#000;}
+.chip[data-v="Cerrada"].sel{background:#f97316;border-color:#f97316;}
+.chip[data-v="Instalada"].sel,.chip[data-v="Operativa"].sel{background:#34d399;border-color:#34d399;color:#000;}
+.chip[data-v="Pendiente"].sel{background:#facc15;border-color:#facc15;color:#000;}
+.chip[data-v="Terminado"].sel{background:#c084fc;border-color:#c084fc;}
+
+/* BTN */
+.btn{width:100%;padding:11px;border-radius:var(--r);border:none;cursor:pointer;
+  font-size:13px;font-weight:700;transition:all .15s;font-family:inherit;}
+.btn-primary{background:var(--acc);color:#fff;}
+.btn-primary:active{background:#1558c0;}
+.btn-danger{background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.3);}
+.btn-danger:active{background:rgba(248,81,73,.3);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* LISTA REGISTROS */
+.reg-list{max-height:260px;overflow-y:auto;}
+.reg-item{padding:9px 10px;background:var(--surf2);border-radius:var(--r);margin-bottom:6px;position:relative;}
+.reg-item:last-child{margin-bottom:0;}
+.ri-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.ri-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ri-title{font-size:11px;font-weight:600;flex:1;}
+.ri-time{font-size:9px;color:var(--muted);}
+.ri-body{font-size:10px;color:var(--muted);line-height:1.5;}
+.ri-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--muted);
+  cursor:pointer;font-size:14px;padding:0 4px;}
+.ri-del:active{color:#f85149;}
 
 /* MAP */
 #map{flex:1;background:#1a2332;position:relative;}
-#loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:#1a2332;z-index:500;gap:12px;}
-.spinner{width:36px;height:36px;border:3px solid var(--brd);border-top-color:var(--acc);
+#loading{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;background:#1a2332;z-index:500;gap:12px;}
+.spinner{width:38px;height:38px;border:3px solid var(--brd);border-top-color:var(--acc);
   border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loadtxt{font-size:12px;color:var(--muted);}
 
+/* BTN FLOTAR — añadir registro desde mapa */
+#fab{position:absolute;bottom:80px;right:14px;z-index:900;
+  width:52px;height:52px;border-radius:50%;background:var(--acc);border:none;
+  color:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+#fab:active{transform:scale(.92);}
+
+/* SYNC INDICATOR */
+#sync{position:absolute;top:8px;right:8px;z-index:900;
+  background:var(--surf);border:1px solid var(--brd);border-radius:20px;
+  padding:4px 10px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:5px;}
+#sync.ok{color:#34d399;}#sync.err{color:#f97316;}#sync.loading{color:#58a6ff;}
+#sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
 /* Leaflet */
-.leaflet-control-zoom a{background:var(--surf)!important;color:var(--txt)!important;border-color:var(--brd)!important;font-weight:600!important;}
+.leaflet-control-zoom a{background:var(--surf)!important;color:var(--txt)!important;border-color:var(--brd)!important;font-weight:700!important;font-size:16px!important;}
 .leaflet-control-zoom a:hover{background:var(--surf2)!important;}
 .leaflet-control-attribution{background:rgba(13,17,23,.75)!important;color:var(--muted)!important;font-size:9px!important;}
-.leaflet-control-attribution a{color:var(--muted)!important;}
 .leaflet-popup-content-wrapper{background:var(--surf)!important;border:1px solid var(--brd)!important;
   border-radius:var(--r)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;padding:0!important;color:var(--txt)!important;}
 .leaflet-popup-tip{background:var(--surf)!important;}
-.leaflet-popup-content{margin:0!important;min-width:190px!important;max-width:260px!important;}
+.leaflet-popup-content{margin:0!important;min-width:200px!important;max-width:270px!important;}
 .ph{padding:10px 12px 8px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:7px;}
-.pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.ptitle{font-size:12px;font-weight:600;}
-.pb2{padding:8px 12px 10px;max-height:200px;overflow-y:auto;}
-.prow{display:flex;justify-content:space-between;gap:10px;padding:3px 0;}
+.pdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ptitle{font-size:12px;font-weight:700;}
+.pb2{padding:8px 12px 10px;max-height:220px;overflow-y:auto;}
+.prow{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px solid rgba(48,54,61,.5);}
+.prow:last-child{border-bottom:none;}
 .pkey{font-size:10px;color:var(--muted);white-space:nowrap;}
 .pval{font-size:10px;font-weight:600;text-align:right;word-break:break-word;}
+.p-del-btn{width:100%;margin-top:8px;padding:7px;border-radius:6px;background:rgba(248,81,73,.1);
+  border:1px solid rgba(248,81,73,.3);color:#f85149;cursor:pointer;font-size:11px;font-weight:600;}
 
 /* TOAST */
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
   background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
-  padding:9px 18px;border-radius:20px;font-size:11px;font-weight:500;
+  padding:10px 20px;border-radius:20px;font-size:12px;font-weight:600;
   z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap;
   box-shadow:0 4px 16px rgba(0,0,0,.5);}
 #toast.show{transform:translateX(-50%) translateY(0);}
 
+/* MODAL POSICIÓN */
+#modal-pos{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:8000;
+  align-items:flex-end;justify-content:center;}
+#modal-pos.open{display:flex;}
+.modal-box{background:var(--surf);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;}
+.modal-title{font-size:14px;font-weight:700;margin-bottom:6px;}
+.modal-sub{font-size:11px;color:var(--muted);margin-bottom:16px;}
+.modal-btns{display:flex;gap:8px;}
+.modal-btns .btn{flex:1;}
+
 /* MOBILE */
 @media(max-width:640px){
   :root{--pw:100vw;}
-  #panel{position:absolute;top:0;left:0;height:100%;box-shadow:4px 0 20px rgba(0,0,0,.6);}
+  #panel{position:absolute;top:0;left:0;height:100%;box-shadow:6px 0 24px rgba(0,0,0,.6);}
   #panel.col{width:0;}
   .bmun{display:none;}
 }
@@ -148,10 +238,10 @@ input[type=file]{display:none;}
   <div class="logo">P</div>
   <div class="titles">
     <div class="apptitle">CatastroMap Padilla</div>
-    <div class="appsub">Red de Agua Potable · Padilla, Chuquisaca</div>
+    <div class="appsub">Red de Agua Potable · Tiempo Real</div>
   </div>
   <div class="badges">
-    <span class="badge blive">EN OBRA</span>
+    <span class="badge blive" id="online-badge">EN LÍNEA</span>
     <span class="badge bmun">CHUQUISACA</span>
   </div>
   <button id="btnp">☰</button>
@@ -160,128 +250,235 @@ input[type=file]{display:none;}
 <div id="main">
   <div id="panel">
 
-    <!-- MAPA BASE -->
-    <div class="ps">
-      <div class="slbl">Mapa Base</div>
-      <div class="bmgrid">
-        <button class="bmbtn" data-bm="calles"><span class="bmico">🗺️</span>Calles</button>
-        <button class="bmbtn on" data-bm="satelite"><span class="bmico">🛰️</span>Satélite</button>
-        <button class="bmbtn" data-bm="topo"><span class="bmico">⛰️</span>Topográfico</button>
-        <button class="bmbtn" data-bm="oscuro"><span class="bmico">🌑</span>Oscuro</button>
+    <!-- TABS PRINCIPALES -->
+    <div class="ps" style="padding-bottom:8px;">
+      <div class="tabs">
+        <div class="tab on" data-tab="capas">🗺️ Capas</div>
+        <div class="tab" data-tab="registro">✏️ Registrar</div>
+        <div class="tab" data-tab="avance">📊 Avance</div>
       </div>
     </div>
 
-    <!-- CAPAS RED + CARGA DE ARCHIVOS -->
-    <div class="ps">
-      <div class="slbl">Capas de Red</div>
+    <!-- ══ TAB CAPAS ══ -->
+    <div id="tab-capas">
 
-      <div class="li on" data-layer="dist">
-        <div class="ldot line" style="background:var(--dist)"></div>
-        <span class="llbl">Red de Distribución</span>
-        <div class="ltog"></div>
+      <!-- MAPA BASE -->
+      <div class="ps">
+        <div class="slbl">Mapa Base</div>
+        <div class="bmgrid">
+          <button class="bmbtn on" data-bm="satelite"><span class="bmico">🛰️</span>Satélite</button>
+          <button class="bmbtn" data-bm="calles"><span class="bmico">🗺️</span>Calles</button>
+          <button class="bmbtn" data-bm="topo"><span class="bmico">⛰️</span>Topográfico</button>
+          <button class="bmbtn" data-bm="oscuro"><span class="bmico">🌑</span>Oscuro</button>
+        </div>
       </div>
-      <label class="upload-btn" id="ulbl-dist" title="Cargar tu GeoJSON real">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar red_distribucion.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="dist"/>
-      </label>
 
-      <div class="li on" data-layer="za" style="margin-top:6px">
-        <div class="ldot line" style="background:var(--za)"></div>
-        <span class="llbl">Zanjas Abiertas</span>
-        <div class="ltog"></div>
+      <!-- CAPAS RED BASE -->
+      <div class="ps">
+        <div class="slbl">Red Diseñada (GeoJSON)</div>
+        <div class="li on" data-layer="dist">
+          <div class="ldot line" style="background:var(--dist)"></div>
+          <span class="llbl">Red de Distribución</span>
+          <div class="ltog"></div>
+        </div>
+        <label class="ulbl" id="ulbl-dist">
+          <span class="uico">📂</span><span class="utxt">Cargar red_distribucion.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="dist"/>
+        </label>
       </div>
-      <label class="upload-btn" id="ulbl-za">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar zanjas_abiertas.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="za"/>
-      </label>
 
-      <div class="li on" data-layer="tt" style="margin-top:6px">
-        <div class="ldot line" style="background:var(--tt)"></div>
-        <span class="llbl">Tendido de Tubería</span>
-        <div class="ltog"></div>
+      <!-- CAPAS DINÁMICAS (Firebase) -->
+      <div class="ps">
+        <div class="slbl">Avance en Tiempo Real</div>
+        <div class="li on" data-layer="za">
+          <div class="ldot line" style="background:var(--za)"></div>
+          <span class="llbl">Zanjas Abiertas</span>
+          <span class="lcount" id="cnt-za">0</span>
+          <div class="ltog"></div>
+        </div>
+        <div class="li on" data-layer="tt">
+          <div class="ldot line" style="background:var(--tt)"></div>
+          <span class="llbl">Tendido Tubería</span>
+          <span class="lcount" id="cnt-tt">0</span>
+          <div class="ltog"></div>
+        </div>
+        <div class="li on" data-layer="zt">
+          <div class="ldot line" style="background:var(--zt)"></div>
+          <span class="llbl">Zanjas Tapadas</span>
+          <span class="lcount" id="cnt-zt">0</span>
+          <div class="ltog"></div>
+        </div>
+        <div class="li on" data-layer="val">
+          <div class="ldot circle" style="background:var(--val)"></div>
+          <span class="llbl">Válvulas</span>
+          <span class="lcount" id="cnt-val">0</span>
+          <div class="ltog"></div>
+        </div>
+        <div class="li on" data-layer="cam">
+          <div class="ldot circle" style="background:var(--cam)"></div>
+          <span class="llbl">Cámaras</span>
+          <span class="lcount" id="cnt-cam">0</span>
+          <div class="ltog"></div>
+        </div>
+        <div class="li on" data-layer="pre">
+          <div class="ldot square" style="background:var(--pre)"></div>
+          <span class="llbl">Predios / Acometidas</span>
+          <span class="lcount" id="cnt-pre">0</span>
+          <div class="ltog"></div>
+        </div>
       </div>
-      <label class="upload-btn" id="ulbl-tt">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar tendido_tuberia.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="tt"/>
-      </label>
 
-      <div class="li on" data-layer="zt" style="margin-top:6px">
-        <div class="ldot line" style="background:var(--zt)"></div>
-        <span class="llbl">Zanjas Tapadas</span>
-        <div class="ltog"></div>
+    </div><!-- /tab-capas -->
+
+    <!-- ══ TAB REGISTRO ══ -->
+    <div id="tab-registro" style="display:none;">
+
+      <div class="reg-section">
+        <div class="slbl">¿Qué vas a registrar?</div>
+        <div class="field">
+          <div class="chips" id="chips-tipo">
+            <div class="chip" data-v="Zanja Abierta">🟠 Zanja Abierta</div>
+            <div class="chip" data-v="Tendido">🟢 Tendido</div>
+            <div class="chip" data-v="Zanja Tapada">🟣 Zanja Tapada</div>
+            <div class="chip" data-v="Válvula">🟡 Válvula</div>
+            <div class="chip" data-v="Cámara">🟢 Cámara</div>
+            <div class="chip" data-v="Acometida">🩷 Acometida</div>
+          </div>
+        </div>
       </div>
-      <label class="upload-btn" id="ulbl-zt">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar zanjas_tapadas.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="zt"/>
-      </label>
-    </div>
 
-    <!-- INFRAESTRUCTURA -->
-    <div class="ps">
-      <div class="slbl">Infraestructura</div>
+      <!-- CAMPOS DINÁMICOS SEGÚN TIPO -->
+      <div class="reg-section" id="campos-contenido" style="display:none;">
 
-      <div class="li on" data-layer="val">
-        <div class="ldot circle" style="background:var(--val)"></div>
-        <span class="llbl">Válvulas y Llaves</span>
-        <div class="ltog"></div>
+        <!-- CAMPOS ZANJAS / TENDIDO -->
+        <div id="campos-linea" style="display:none;">
+          <div class="field row2">
+            <div>
+              <label class="field-label">Longitud (m)</label>
+              <input type="number" id="f-longitud" placeholder="ej. 45"/>
+            </div>
+            <div>
+              <label class="field-label">Diámetro</label>
+              <select id="f-diametro">
+                <option value="">-- elige --</option>
+                <option>20 mm</option><option>25 mm</option><option>32 mm</option>
+                <option>40 mm</option><option>50 mm</option><option>63 mm</option>
+                <option>75 mm</option><option>90 mm</option><option>110 mm</option>
+                <option>125 mm</option><option>160 mm</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field-label">Material</label>
+            <select id="f-material">
+              <option value="">-- elige --</option>
+              <option>PVC PN-6</option><option>PVC PN-10</option>
+              <option>HDPE</option><option>Fierro galvanizado</option><option>Otro</option>
+            </select>
+          </div>
+          <div class="field" id="campo-prueba" style="display:none;">
+            <label class="field-label">Prueba de Presión</label>
+            <div class="chips" id="chips-prueba">
+              <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
+              <div class="chip" data-v="Aprobada">✅ Aprobada</div>
+              <div class="chip" data-v="Rechazada">❌ Rechazada</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAMPOS VÁLVULA / CÁMARA -->
+        <div id="campos-punto" style="display:none;">
+          <div class="field">
+            <label class="field-label">Tipo</label>
+            <select id="f-tipo-inf">
+              <option value="">-- elige --</option>
+              <option>Válvula Compuerta</option><option>Válvula Mariposa</option>
+              <option>Válvula de Purga</option><option>Válvula de Aire</option>
+              <option>Cámara Rompe-Presión</option><option>Cámara de Inspección</option>
+              <option>Llave Domiciliaria</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label">Estado</label>
+            <div class="chips" id="chips-estado-punto">
+              <div class="chip" data-v="Instalada">✅ Instalada</div>
+              <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
+              <div class="chip" data-v="Operativa">🟢 Operativa</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAMPOS COMUNES -->
+        <div class="field">
+          <label class="field-label">Cuadrilla / Responsable</label>
+          <select id="f-cuadrilla">
+            <option value="">-- elige --</option>
+            <option>Cuadrilla A</option><option>Cuadrilla B</option>
+            <option>Cuadrilla C</option><option>Dirección Técnica</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Observación</label>
+          <textarea id="f-obs" placeholder="Notas, problemas, materiales usados..."></textarea>
+        </div>
+
+        <!-- UBICACIÓN -->
+        <div class="field">
+          <label class="field-label">Ubicación</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="flex:1;font-size:11px;color:var(--muted);" id="coord-display">Toca el mapa o usa GPS</div>
+            <button class="btn btn-primary" style="width:auto;padding:8px 10px;font-size:11px;" onclick="usarGPS()">📍 GPS</button>
+          </div>
+          <div id="coord-val" style="font-size:10px;color:var(--cam);margin-top:4px;"></div>
+        </div>
+
+        <button class="btn btn-primary" id="btn-guardar" style="margin-top:4px;" disabled>💾 Guardar Registro</button>
       </div>
-      <label class="upload-btn" id="ulbl-val">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar valvulas.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="val"/>
-      </label>
 
-      <div class="li on" data-layer="cam" style="margin-top:6px">
-        <div class="ldot circle" style="background:var(--cam)"></div>
-        <span class="llbl">Cámaras de Inspección</span>
-        <div class="ltog"></div>
+      <!-- LISTA REGISTROS RECIENTES -->
+      <div class="reg-section">
+        <div class="slbl">Últimos registros</div>
+        <div class="reg-list" id="reg-list">
+          <div style="font-size:11px;color:var(--muted);text-align:center;padding:20px 0;">
+            Sin registros aún. Usa el botón ✏️ para agregar.
+          </div>
+        </div>
       </div>
-      <label class="upload-btn" id="ulbl-cam">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar camaras.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="cam"/>
-      </label>
 
-      <div class="li on" data-layer="pre" style="margin-top:6px">
-        <div class="ldot square" style="background:var(--pre)"></div>
-        <span class="llbl">Predios / Acometidas</span>
-        <div class="ltog"></div>
-      </div>
-      <label class="upload-btn" id="ulbl-pre">
-        <span class="upload-ico">📂</span>
-        <span class="upload-lbl">Cargar predios.geojson</span>
-        <input type="file" accept=".geojson,.json" data-target="pre"/>
-      </label>
-    </div>
+    </div><!-- /tab-registro -->
 
-    <!-- AVANCE -->
-    <div class="ps">
-      <div class="slbl">Avance de Obra</div>
-      <div class="pbwrap">
-        <div class="pbhead"><span class="pbtitle">Avance General</span><span class="pbpct" id="pg">0%</span></div>
-        <div class="pbbg"><div class="pbfill" id="bg" style="width:0%"></div></div>
-      </div>
-      <div class="pbwrap">
-        <div class="pbhead"><span class="pbtitle">Zanjas Tapadas / Total</span><span class="pbpct" id="pz">0%</span></div>
-        <div class="pbbg"><div class="pbfill" id="bz" style="width:0%"></div></div>
-      </div>
-    </div>
+    <!-- ══ TAB AVANCE ══ -->
+    <div id="tab-avance" style="display:none;padding:12px;">
 
-    <!-- ESTADÍSTICAS -->
-    <div class="ps">
-      <div class="slbl">Estadísticas</div>
-      <div class="srow"><span class="sname">Red distribución</span><span class="sval" id="sd">demo</span></div>
-      <div class="srow"><span class="sname">Zanjas abiertas</span><span class="sval" id="sza">demo</span></div>
-      <div class="srow"><span class="sname">Tendido tubería</span><span class="sval" id="stt">demo</span></div>
-      <div class="srow"><span class="sname">Zanjas tapadas</span><span class="sval" id="szt">demo</span></div>
-      <div class="srow"><span class="sname">Válvulas</span><span class="sval" id="sv">demo</span></div>
-      <div class="srow"><span class="sname">Cámaras</span><span class="sval" id="sc">demo</span></div>
-      <div class="srow"><span class="sname">Acometidas</span><span class="sval" id="sp">demo</span></div>
-    </div>
+      <div class="slbl">Progreso de Obra</div>
+      <div class="pbw">
+        <div class="pbh"><span class="pbt">Avance General</span><span class="pbp" id="pg">0%</span></div>
+        <div class="pbb"><div class="pbf" id="bg" style="width:0%"></div></div>
+      </div>
+      <div class="pbw">
+        <div class="pbh"><span class="pbt">Zanjas Tapadas / Abiertas</span><span class="pbp" id="pz">0%</span></div>
+        <div class="pbb"><div class="pbf" id="bz" style="width:0%"></div></div>
+      </div>
+      <div class="pbw">
+        <div class="pbh"><span class="pbt">Tendido / Total Red</span><span class="pbp" id="pt">0%</span></div>
+        <div class="pbb"><div class="pbf" id="bt" style="width:0%"></div></div>
+      </div>
+
+      <div class="slbl" style="margin-top:16px;">Métricas</div>
+      <div class="srow"><span class="sname">Red diseñada total</span><span class="sval" id="s-dist">—</span></div>
+      <div class="srow"><span class="sname">Zanjas abiertas</span><span class="sval" id="s-za">0 tramos</span></div>
+      <div class="srow"><span class="sname">Tendido tubería</span><span class="sval" id="s-tt">0 tramos</span></div>
+      <div class="srow"><span class="sname">Zanjas tapadas</span><span class="sval" id="s-zt">0 tramos</span></div>
+      <div class="srow"><span class="sname">Válvulas instaladas</span><span class="sval" id="s-val">0</span></div>
+      <div class="srow"><span class="sname">Cámaras</span><span class="sval" id="s-cam">0</span></div>
+      <div class="srow"><span class="sname">Acometidas</span><span class="sval" id="s-pre">0</span></div>
+
+      <div style="margin-top:12px;padding:10px;background:var(--surf2);border-radius:var(--r);border:1px solid var(--brd);">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">ÚLTIMA ACTUALIZACIÓN</div>
+        <div style="font-size:11px;font-weight:600;" id="last-update">—</div>
+      </div>
+
+    </div><!-- /tab-avance -->
 
   </div><!-- /panel -->
 
@@ -290,6 +487,26 @@ input[type=file]{display:none;}
       <div class="spinner"></div>
       <span class="loadtxt">Cargando mapa…</span>
     </div>
+    <!-- Indicador de sync -->
+    <div id="sync" class="ok"><div id="sync-dot"></div><span id="sync-txt">Guardado</span></div>
+  </div>
+
+  <!-- FAB: tap en mapa para agregar punto -->
+  <button id="fab" title="Registrar elemento en el mapa">✏️</button>
+
+</div><!-- /main -->
+
+<!-- MODAL POSICIÓN -->
+<div id="modal-pos">
+  <div class="modal-box">
+    <div class="modal-title">📍 ¿Cómo obtener la ubicación?</div>
+    <div class="modal-sub">Elige cómo vas a registrar la posición del elemento en campo.</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="usarGPS()">📍 Usar mi GPS</button>
+      <button class="btn" style="background:var(--surf2);border:1px solid var(--brd);color:var(--txt);"
+        onclick="activarClickMapa()">🖱️ Tocar el mapa</button>
+    </div>
+    <button class="btn" style="background:none;color:var(--muted);margin-top:8px;" onclick="cerrarModal()">Cancelar</button>
   </div>
 </div>
 
@@ -297,248 +514,512 @@ input[type=file]{display:none;}
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script>
+// ══════════════════════════════════════════════════
+//  FIREBASE CONFIG
+//  ► Reemplaza estos valores con los de tu proyecto
+//    en https://console.firebase.google.com
+// ══════════════════════════════════════════════════
+const FB_CONFIG = {
+  apiKey:            "TU_API_KEY",
+  authDomain:        "TU_PROJECT.firebaseapp.com",
+  projectId:         "TU_PROJECT_ID",
+  storageBucket:     "TU_PROJECT.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId:             "TU_APP_ID"
+};
+const USE_FIREBASE = false; // ← Cambia a true cuando configures Firebase
+
+// ══════════════════════════════════════════════════
+//  ALMACENAMIENTO LOCAL (funciona sin Firebase)
+// ══════════════════════════════════════════════════
+let DB = JSON.parse(localStorage.getItem('catastro_padilla') || '[]');
+function saveDB(){ localStorage.setItem('catastro_padilla', JSON.stringify(DB)); }
+
+// ══════════════════════════════════════════════════
+//  CARGA LEAFLET + FIREBASE Y ARRANCA
+// ══════════════════════════════════════════════════
 (function(){
   var s=document.createElement('script');
   s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-  s.onload=initApp;
-  s.onerror=function(){
+  s.onload = USE_FIREBASE ? cargarFirebase : initApp;
+  s.onerror = function(){
     document.getElementById('loading').innerHTML=
-      '<span style="color:#f97316;font-size:12px;text-align:center;padding:20px">'+
-      '⚠️ Sin conexión.<br>Verifica internet y recarga.</span>';
+      '<span style="color:#f97316;font-size:12px;text-align:center;padding:20px">⚠️ Sin conexión. Verifica internet.</span>';
   };
   document.head.appendChild(s);
 })();
 
+function cargarFirebase(){
+  var s=document.createElement('script');
+  s.src='https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
+  s.onload=function(){
+    var s2=document.createElement('script');
+    s2.src='https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js';
+    s2.onload=function(){ firebase.initializeApp(FB_CONFIG); initApp(); };
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s);
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+let MAP, BASE, LYRS={}, selCoord=null, tipoSel=null, modoClick=false;
+const COLORS={dist:'#38bdf8',za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
+const TIPO_MAP={'Zanja Abierta':'za','Tendido':'tt','Zanja Tapada':'zt','Válvula':'val','Cámara':'cam','Acometida':'pre'};
+
 function initApp(){
   document.getElementById('loading').style.display='none';
 
-  const C=[-19.3069,-64.3036];
-  const map=L.map('map',{center:C,zoom:15});
+  // ── MAPA ──
+  MAP = L.map('map',{center:[-19.3069,-64.3036],zoom:15,zoomControl:true,
+    tap:true, bounceAtZoomLimits:false});
 
-  /* ── TILES ── */
+  // ── TILES con fallback de zoom ──
+  const mkTile=(url,opts)=>L.tileLayer(url,{...opts,maxNativeZoom:opts.maxNativeZoom||18,maxZoom:22,
+    errorTileUrl:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'});
+
   const TILES={
-    calles:  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}),
-    satelite:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© Esri World Imagery',maxZoom:19}),
-    topo:    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{attribution:'© OpenTopoMap',maxZoom:17}),
-    oscuro:  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© CartoDB',maxZoom:19}),
+    satelite: mkTile('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      {attribution:'© Esri',maxNativeZoom:18}),
+    calles:   mkTile('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {attribution:'© OSM',maxNativeZoom:19}),
+    topo:     mkTile('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+      {attribution:'© OpenTopoMap',maxNativeZoom:16}),
+    oscuro:   mkTile('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      {attribution:'© CartoDB',maxNativeZoom:19}),
   };
-  let base=TILES.satelite; base.addTo(map);
+  BASE=TILES.satelite; BASE.addTo(MAP);
 
-  /* ── ESTILOS ── */
-  const ST={
-    dist:{color:'#38bdf8',weight:3,opacity:.9},
-    za:  {color:'#f97316',weight:4,opacity:1,dashArray:'8 4'},
-    tt:  {color:'#a3e635',weight:3,opacity:1,dashArray:'4 3'},
-    zt:  {color:'#c084fc',weight:3,opacity:.9},
-    pre: {color:'#f472b6',weight:1,opacity:.8,fillColor:'#f472b6',fillOpacity:.12},
-  };
-  const COLORS={dist:'#38bdf8',za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
-  const LABELS={dist:'Red de Distribución',za:'Zanja Abierta',tt:'Tendido de Tubería',
-                zt:'Zanja Tapada',val:'Válvula',cam:'Cámara',pre:'Predio / Acometida'};
+  // Inicializar grupos de capas
+  Object.keys(COLORS).forEach(k=>{ LYRS[k]=L.layerGroup().addTo(MAP); });
 
-  /* ── HELPERS ── */
-  function ico(color,sym){
-    return L.divIcon({
-      html:`<div style="width:22px;height:22px;background:${color};border:2px solid rgba(255,255,255,.3);
-        border-radius:50%;display:flex;align-items:center;justify-content:center;
-        font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.7)">${sym}</div>`,
-      iconSize:[22,22],iconAnchor:[11,11],className:''
-    });
-  }
-  function popup(key,props){
-    const filas=Object.entries(props)
-      .filter(([,v])=>v!==null&&v!==undefined&&v!=='')
-      .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`)
-      .join('');
-    return`<div class="ph"><div class="pdot" style="background:${COLORS[key]}"></div>
-      <div class="ptitle">${LABELS[key]}</div></div><div class="pb2">${filas||'<span style="font-size:10px;color:var(--muted)">Sin atributos</span>'}</div>`;
-  }
-  function lng(geo){
-    let t=0;
-    (geo.features||[]).forEach(f=>{
-      if(!f.geometry)return;
-      const c=f.geometry.type==='LineString'?f.geometry.coordinates:
-              f.geometry.type==='MultiLineString'?f.geometry.coordinates.flat():[];
-      for(let i=0;i<c.length-1;i++)t+=L.latLng(c[i][1],c[i][0]).distanceTo(L.latLng(c[i+1][1],c[i+1][0]));
-    });return Math.round(t);
-  }
-  function fmt(m){return m>=1000?(m/1000).toFixed(2)+' km':m+' m';}
-
-  /* ── DATOS DEMO ── */
-  const B=C;
-  function lin(dx1,dy1,dx2,dy2,n,p){
-    n=n||7;const c=[];
-    for(let i=0;i<=n;i++){const t=i/n;c.push([B[1]+dx1+(dx2-dx1)*t+(Math.random()-.5)*.00015,B[0]+dy1+(dy2-dy1)*t+(Math.random()-.5)*.00015]);}
-    return{type:'Feature',geometry:{type:'LineString',coordinates:c},properties:p||{}};
-  }
-  const DEMO={
-    dist:{type:'FeatureCollection',features:[
-      lin(-.006,-.009, .006,-.009,9,{id:'T-001',diametro:'110 mm',material:'PVC',estado:'Existente',presion:'4.5 bar'}),
-      lin(-.006, .006,  .006, .006,9,{id:'T-002',diametro:'63 mm',material:'PVC',estado:'Existente',presion:'3.2 bar'}),
-      lin(-.004,-.009, -.004, .007,9,{id:'T-003',diametro:'90 mm',material:'HDPE',estado:'Existente',presion:'3.8 bar'}),
-      lin( .004,-.009,  .004, .007,9,{id:'T-004',diametro:'63 mm',material:'PVC',estado:'Proyectado'}),
-      lin(-.006,-.009, -.006, .007,7,{id:'T-005',diametro:'75 mm',material:'PVC',estado:'Existente',presion:'3.5 bar'}),
-    ]},
-    za:{type:'FeatureCollection',features:[
-      lin( .001,-.002, .005, .001,6,{id:'ZA-001',longitud:'480 m',profundidad:'1.2 m',cuadrilla:'A',capataz:'Pedro Quispe',fecha_inicio:'2025-10-08'}),
-      lin( .000, .002, .005, .004,5,{id:'ZA-002',longitud:'340 m',profundidad:'1.0 m',cuadrilla:'B',capataz:'Mario Condori',fecha_inicio:'2025-10-10',nota:'Suelo rocoso'}),
-      lin(-.003, .001,-.001, .005,5,{id:'ZA-003',longitud:'280 m',profundidad:'1.3 m',cuadrilla:'C',capataz:'Luis Mamani',fecha_inicio:'2025-10-11'}),
-    ]},
-    tt:{type:'FeatureCollection',features:[
-      lin(-.006,-.009,-.002,-.004,6,{id:'TT-001',diametro:'110 mm',material:'PVC',clase:'PN-10',fecha:'2025-10-02',cuadrilla:'A',prueba:'Aprobada'}),
-      lin(-.002,-.004, .002,-.001,5,{id:'TT-002',diametro:'90 mm',material:'PVC',clase:'PN-10',fecha:'2025-10-04',cuadrilla:'A',prueba:'Pendiente'}),
-      lin(-.004,-.009,-.004,-.003,5,{id:'TT-003',diametro:'63 mm',material:'PVC',clase:'PN-6',fecha:'2025-10-06',cuadrilla:'B',prueba:'Pendiente'}),
-    ]},
-    zt:{type:'FeatureCollection',features:[
-      lin(-.006,-.009,-.005,-.006,4,{id:'ZT-001',longitud:'220 m',relleno:'Asfalto frío',capas:'4',fecha_tapado:'2025-10-05',cuadrilla:'A'}),
-      lin(-.005,-.006,-.006,-.003,4,{id:'ZT-002',longitud:'190 m',relleno:'Material propio',capas:'3',fecha_tapado:'2025-10-07',cuadrilla:'A'}),
-      lin( .004,-.009, .004,-.005,4,{id:'ZT-003',longitud:'175 m',relleno:'Material propio',capas:'3',fecha_tapado:'2025-10-09',cuadrilla:'C'}),
-    ]},
-    val:{type:'FeatureCollection',features:[
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.006,B[0]-.009]},properties:{id:'V-001',tipo:'Compuerta',diametro:'110 mm',posicion:'Abierta',estado:'Operativa'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1],B[0]-.009]},properties:{id:'V-002',tipo:'Compuerta',diametro:'90 mm',posicion:'Abierta',estado:'Operativa'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.004,B[0]-.009]},properties:{id:'V-003',tipo:'Compuerta',diametro:'63 mm',posicion:'Cerrada',estado:'Instalada'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.002,B[0]+.004]},properties:{id:'V-004',tipo:'Purga',diametro:'25 mm',posicion:'Cerrada',estado:'Operativa'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.002,B[0]+.005]},properties:{id:'V-005',tipo:'Aire',diametro:'25 mm',posicion:'Auto',estado:'Pendiente'}},
-    ]},
-    cam:{type:'FeatureCollection',features:[
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.006,B[0]-.012]},properties:{id:'CR-001',tipo:'Rompe-Presión',codigo:'CRP-01',capacidad:'5 m³',cota:'2180 msnm',estado:'Operativa',p_entrada:'8.2 bar',p_salida:'4.5 bar'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.001,B[0]-.002]},properties:{id:'CI-001',tipo:'Inspección',codigo:'CIN-01',cota:'2155 msnm',estado:'Construida',fecha:'2025-10-05'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]-.003,B[0]+.002]},properties:{id:'CR-002',tipo:'Rompe-Presión',codigo:'CRP-02',capacidad:'3 m³',cota:'2140 msnm',estado:'Pendiente'}},
-      {type:'Feature',geometry:{type:'Point',coordinates:[B[1]+.003,B[0]+.004]},properties:{id:'CI-002',tipo:'Inspección',codigo:'CIN-02',cota:'2148 msnm',estado:'Construida',fecha:'2025-10-08'}},
-    ]},
-    pre:{type:'FeatureCollection',features:[
-      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]-.003,B[0]-.001],[B[1]-.001,B[0]-.001],[B[1]-.001,B[0]+.002],[B[1]-.003,B[0]+.002],[B[1]-.003,B[0]-.001]]]},properties:{id:'P-001',catastro:'PAD-15-001',propietario:'Juan C. Mamani',uso:'Residencial',area:'220 m²',acometida:'Instalada',medidor:'MED-0042'}},
-      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]+.001,B[0]-.001],[B[1]+.003,B[0]-.001],[B[1]+.003,B[0]+.001],[B[1]+.001,B[0]+.001],[B[1]+.001,B[0]-.001]]]},properties:{id:'P-002',catastro:'PAD-15-002',propietario:'María E. Flores',uso:'Residencial',area:'185 m²',acometida:'Pendiente'}},
-      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]-.001,B[0]+.003],[B[1]+.001,B[0]+.003],[B[1]+.001,B[0]+.005],[B[1]-.001,B[0]+.005],[B[1]-.001,B[0]+.003]]]},properties:{id:'P-003',catastro:'PAD-15-003',propietario:'Centro de Salud Municipal',uso:'Salud',area:'480 m²',acometida:'Instalada',medidor:'MED-0010'}},
-      {type:'Feature',geometry:{type:'Polygon',coordinates:[[[B[1]+.003,B[0]+.002],[B[1]+.005,B[0]+.002],[B[1]+.005,B[0]+.004],[B[1]+.003,B[0]+.004],[B[1]+.003,B[0]+.002]]]},properties:{id:'P-004',catastro:'PAD-15-004',propietario:'Cooperativa Escolar',uso:'Educativo',area:'650 m²',acometida:'Pendiente'}},
-    ]},
-  };
-
-  /* ── RENDER CAPAS ── */
-  const LYR={};
-  function renderLayer(key,geo){
-    if(LYR[key]) map.removeLayer(LYR[key]);
-    if(key==='val'){
-      LYR[key]=L.geoJSON(geo,{pointToLayer:(f,ll)=>L.marker(ll,{icon:ico('#facc15','⚙')}),
-        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
-    } else if(key==='cam'){
-      LYR[key]=L.geoJSON(geo,{pointToLayer:(f,ll)=>L.marker(ll,{icon:ico('#34d399','◉')}),
-        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
-    } else {
-      LYR[key]=L.geoJSON(geo,{style:ST[key]||{color:'#aaa',weight:2},
-        onEachFeature:(f,l)=>l.bindPopup(popup(key,f.properties))}).addTo(map);
+  // ── CLIC EN MAPA para registrar posición ──
+  MAP.on('click',function(e){
+    if(window.innerWidth<=640 && !document.getElementById('panel').classList.contains('col')){
+      document.getElementById('panel').classList.add('col');
+      setTimeout(()=>MAP.invalidateSize(),280); return;
     }
-    // si el toggle está off, ocultamos inmediatamente
-    const el=document.querySelector(`.li[data-layer="${key}"]`);
-    if(el && el.classList.contains('off')) map.removeLayer(LYR[key]);
+    if(modoClick){ setCoord(e.latlng); desactivarClickMapa(); }
+  });
+
+  // Cargar GeoJSON demo de distribución
+  cargarDemoBase();
+
+  // Cargar registros
+  cargarRegistros();
+
+  // Escuchar Firebase si está activo
+  if(USE_FIREBASE) escucharFirebase();
+
+  // Indicador online
+  window.addEventListener('online', ()=>setSyncStatus('ok','En línea'));
+  window.addEventListener('offline',()=>setSyncStatus('err','Sin señal'));
+  setSyncStatus(navigator.onLine?'ok':'err', navigator.onLine?'En línea':'Sin señal');
+
+  initUI();
+}
+
+// ══════════════════════════════════════════════════
+//  DATOS DEMO BASE (red diseñada)
+// ══════════════════════════════════════════════════
+const B=[-19.3069,-64.3036];
+function lin(dx1,dy1,dx2,dy2,n,p){
+  n=n||7;const c=[];
+  for(let i=0;i<=n;i++){const t=i/n;
+    c.push([B[1]+dx1+(dx2-dx1)*t+(Math.random()-.5)*.00015,
+             B[0]+dy1+(dy2-dy1)*t+(Math.random()-.5)*.00015]);}
+  return{type:'Feature',geometry:{type:'LineString',coordinates:c},properties:p||{}};
+}
+const DEMO_DIST={type:'FeatureCollection',features:[
+  lin(-.007,-.010, .007,-.010,10,{id:'T-001',diametro:'110 mm',material:'PVC',estado:'Diseñado'}),
+  lin(-.007, .007,  .007, .007,10,{id:'T-002',diametro:'63 mm',material:'PVC',estado:'Diseñado'}),
+  lin(-.005,-.010, -.005, .008,10,{id:'T-003',diametro:'90 mm',material:'HDPE',estado:'Diseñado'}),
+  lin( .005,-.010,  .005, .008,10,{id:'T-004',diametro:'63 mm',material:'PVC',estado:'Diseñado'}),
+  lin(-.007,-.010, -.007, .008, 8,{id:'T-005',diametro:'75 mm',material:'PVC',estado:'Diseñado'}),
+  lin(-.007,-.010,  .007,-.010, 6,{id:'T-006',diametro:'110 mm',material:'PVC',estado:'Diseñado'}),
+]};
+let distGeo=DEMO_DIST;
+
+function cargarDemoBase(){
+  renderBase(DEMO_DIST);
+  document.getElementById('s-dist').textContent=calcLong(DEMO_DIST);
+}
+function renderBase(geo){
+  LYRS.dist.clearLayers();
+  L.geoJSON(geo,{
+    style:{color:'#38bdf8',weight:3,opacity:.85,dashArray:'6 3'},
+    onEachFeature:(f,l)=>l.bindPopup(mkPopup('dist',f.properties))
+  }).addTo(LYRS.dist);
+}
+
+// ══════════════════════════════════════════════════
+//  REGISTROS (LocalStorage + Firebase)
+// ══════════════════════════════════════════════════
+function cargarRegistros(){
+  LYRS.za.clearLayers(); LYRS.tt.clearLayers(); LYRS.zt.clearLayers();
+  LYRS.val.clearLayers(); LYRS.cam.clearLayers(); LYRS.pre.clearLayers();
+  DB.forEach(r=>pintarRegistro(r));
+  actualizarContadores();
+  actualizarListaRegistros();
+  actualizarAvance();
+}
+
+function pintarRegistro(r){
+  if(!r.lat||!r.lng) return;
+  const ll=L.latLng(r.lat,r.lng);
+  const key=TIPO_MAP[r.tipo]||'za';
+  const color=COLORS[key]||'#aaa';
+  let layer;
+  if(['Válvula','Cámara','Acometida'].includes(r.tipo)){
+    layer=L.marker(ll,{icon:icoMkr(color, r.tipo==='Válvula'?'⚙':r.tipo==='Cámara'?'◉':'🏠')});
+  } else {
+    // Para zanjas y tendido, crear un círculo pequeño (punto de registro)
+    layer=L.circleMarker(ll,{radius:8,color:color,fillColor:color,fillOpacity:.8,weight:2});
   }
+  layer.bindPopup(mkPopupReg(r,color));
+  LYRS[key].addLayer(layer);
+  r._layer=layer; r._lyrKey=key;
+}
 
-  // Cargar demo
-  Object.keys(DEMO).forEach(k=>renderLayer(k,DEMO[k]));
+function mkPopupReg(r,color){
+  const filas=Object.entries(r)
+    .filter(([k])=>!['id','_layer','_lyrKey','lat','lng'].includes(k)&&r[k])
+    .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`)
+    .join('');
+  const delBtn=`<button class="p-del-btn" onclick="eliminarRegistro('${r.id}')">🗑 Eliminar este registro</button>`;
+  return`<div class="ph"><div class="pdot" style="background:${color}"></div>
+    <div class="ptitle">${r.tipo}</div></div><div class="pb2">${filas}${delBtn}</div>`;
+}
 
-  // Estadísticas
-  function updateStats(key,geo){
-    const ids={dist:'sd',za:'sza',tt:'stt',zt:'szt',val:'sv',cam:'sc',pre:'sp'};
-    const el=document.getElementById(ids[key]);
-    if(!el)return;
-    if(['val','cam','pre'].includes(key)){
-      if(key==='pre') el.textContent=(geo.features||[]).length+' predios';
-      else el.textContent=(geo.features||[]).length+' unid.';
-    } else {
-      el.textContent=fmt(lng(geo));
-    }
+function guardarRegistro(datos){
+  datos.id = Date.now().toString();
+  datos.fecha = new Date().toLocaleString('es-BO');
+  datos.usuario = 'Equipo Técnico';
+  DB.push(datos);
+  saveDB();
+  if(USE_FIREBASE){
+    setSyncStatus('loading','Guardando…');
+    firebase.firestore().collection('registros_padilla').doc(datos.id).set(datos)
+      .then(()=>setSyncStatus('ok','Guardado ✓'))
+      .catch(e=>{ setSyncStatus('err','Error sync'); console.warn(e); });
   }
-  Object.keys(DEMO).forEach(k=>updateStats(k,DEMO[k]));
+  pintarRegistro(datos);
+  actualizarContadores();
+  actualizarListaRegistros();
+  actualizarAvance();
+  document.getElementById('last-update').textContent=datos.fecha+' · '+datos.tipo;
+  toast('✅ Registrado: '+datos.tipo+' ('+datos.fecha+')');
+}
 
-  function updateProgress(){
-    const dD=lng(DEMO.dist),dZA=lng(DEMO.za),dTT=lng(DEMO.tt),dZT=lng(DEMO.zt);
-    const tot=dZA+dTT+dZT;
-    const pz=tot>0?Math.round(dZT/tot*100):0;
-    const pg=Math.min(Math.round((dZT+dTT*.5)/(dD||1)*100),100);
+function eliminarRegistro(id){
+  const idx=DB.findIndex(r=>r.id===id);
+  if(idx===-1)return;
+  const r=DB[idx];
+  if(r._layer && LYRS[r._lyrKey]) LYRS[r._lyrKey].removeLayer(r._layer);
+  DB.splice(idx,1);
+  saveDB();
+  if(USE_FIREBASE) firebase.firestore().collection('registros_padilla').doc(id).delete().catch(console.warn);
+  actualizarContadores(); actualizarListaRegistros(); actualizarAvance();
+  MAP.closePopup();
+  toast('🗑 Registro eliminado');
+}
+
+function escucharFirebase(){
+  firebase.firestore().collection('registros_padilla')
+    .onSnapshot(snap=>{
+      DB=[];
+      snap.forEach(doc=>DB.push({...doc.data(),id:doc.id}));
+      cargarRegistros();
+      setSyncStatus('ok','Sincronizado');
+    }, err=>{ setSyncStatus('err','Error Firebase'); console.warn(err); });
+}
+
+// ══════════════════════════════════════════════════
+//  CONTADORES Y AVANCE
+// ══════════════════════════════════════════════════
+function actualizarContadores(){
+  const cnt={'za':0,'tt':0,'zt':0,'val':0,'cam':0,'pre':0};
+  DB.forEach(r=>{ const k=TIPO_MAP[r.tipo]; if(k) cnt[k]++; });
+  Object.keys(cnt).forEach(k=>{
+    const el=document.getElementById('cnt-'+k);
+    if(el) el.textContent=cnt[k];
+  });
+  document.getElementById('s-za').textContent=cnt.za+' tramos';
+  document.getElementById('s-tt').textContent=cnt.tt+' tramos';
+  document.getElementById('s-zt').textContent=cnt.zt+' tramos';
+  document.getElementById('s-val').textContent=cnt.val+' unid.';
+  document.getElementById('s-cam').textContent=cnt.cam+' unid.';
+  document.getElementById('s-pre').textContent=cnt.pre+' acometidas';
+}
+
+function actualizarAvance(){
+  const cnt={'za':0,'tt':0,'zt':0};
+  DB.forEach(r=>{ const k=TIPO_MAP[r.tipo]; if(k&&cnt[k]!==undefined) cnt[k]++; });
+  const tot=cnt.za+cnt.tt+cnt.zt||1;
+  const pz=Math.round(cnt.zt/(cnt.za+cnt.zt||1)*100);
+  const pt=Math.round(cnt.tt/tot*100);
+  const pg=Math.round((cnt.zt*2+cnt.tt)/(tot*2)*100);
+  setTimeout(()=>{
     document.getElementById('pz').textContent=pz+'%'; document.getElementById('bz').style.width=pz+'%';
+    document.getElementById('pt').textContent=pt+'%'; document.getElementById('bt').style.width=pt+'%';
     document.getElementById('pg').textContent=pg+'%'; document.getElementById('bg').style.width=pg+'%';
-  }
-  setTimeout(updateProgress,500);
+  },300);
+}
 
-  /* ── CARGA DE ARCHIVOS REALES ── */
-  document.querySelectorAll('input[type=file]').forEach(inp=>{
-    inp.addEventListener('change',function(){
-      const key=this.dataset.target;
-      const file=this.files[0];
-      if(!file)return;
-      const lbl=document.getElementById('ulbl-'+key);
-      const reader=new FileReader();
-      reader.onload=function(e){
-        try{
-          const geo=JSON.parse(e.target.result);
-          if(!geo.type||!geo.features)throw new Error('No es GeoJSON válido');
-          DEMO[key]=geo; // actualiza la fuente de datos
-          renderLayer(key,geo);
-          updateStats(key,geo);
-          updateProgress();
-          if(lbl){lbl.classList.add('loaded');lbl.querySelector('.upload-lbl').textContent='✓ '+file.name;}
-          toast('✅ Cargado: '+file.name+' ('+geo.features.length+' elementos)');
-          // zoom a la capa cargada
-          try{const b=LYR[key].getBounds();if(b.isValid())map.fitBounds(b,{padding:[30,30]});}catch(e){}
-        }catch(err){
-          toast('⚠️ Error: '+err.message);
-        }
-      };
-      reader.readAsText(file);
+function actualizarListaRegistros(){
+  const el=document.getElementById('reg-list');
+  if(!DB.length){
+    el.innerHTML='<div style="font-size:11px;color:var(--muted);text-align:center;padding:20px 0;">Sin registros aún.</div>'; return;
+  }
+  const sorted=[...DB].reverse().slice(0,20);
+  const key_colors={za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
+  el.innerHTML=sorted.map(r=>{
+    const k=TIPO_MAP[r.tipo]||'za'; const c=key_colors[k]||'#aaa';
+    const resumen=[r.diametro,r.material,r.longitud?r.longitud+'m':'',r.cuadrilla,r['tipo-inf']].filter(Boolean).join(' · ');
+    return`<div class="reg-item">
+      <button class="ri-del" onclick="eliminarRegistro('${r.id}')">✕</button>
+      <div class="ri-top"><div class="ri-dot" style="background:${c}"></div>
+        <span class="ri-title">${r.tipo}</span>
+        <span class="ri-time">${r.fecha||''}</span></div>
+      <div class="ri-body">${resumen||r.obs||'Sin detalles'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  UI: TABS, CHIPS, FORMULARIO
+// ══════════════════════════════════════════════════
+function initUI(){
+
+  // TABS
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+      t.classList.add('on');
+      const tab=t.dataset.tab;
+      document.getElementById('tab-capas').style.display=tab==='capas'?'block':'none';
+      document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';
+      document.getElementById('tab-avance').style.display=tab==='avance'?'block':'none';
     });
   });
 
-  /* ── TOGGLE CAPAS ── */
+  // FAB → abre tab registro
+  document.getElementById('fab').addEventListener('click',()=>{
+    document.getElementById('panel').classList.remove('col');
+    setTimeout(()=>MAP.invalidateSize(),280);
+    document.querySelector('.tab[data-tab="registro"]').click();
+    document.getElementById('modal-pos').classList.add('open');
+  });
+
+  // CHIPS TIPO
+  document.querySelectorAll('#chips-tipo .chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      document.querySelectorAll('#chips-tipo .chip').forEach(x=>x.classList.remove('sel'));
+      c.classList.add('sel'); tipoSel=c.dataset.v;
+      mostrarCamposTipo(tipoSel);
+      document.getElementById('campos-contenido').style.display='block';
+    });
+  });
+
+  // CHIPS genéricos
+  document.querySelectorAll('.chips:not(#chips-tipo) .chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      const parent=c.closest('.chips');
+      parent.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
+      c.classList.add('sel');
+    });
+  });
+
+  // BOTÓN GUARDAR
+  document.getElementById('btn-guardar').addEventListener('click',()=>{
+    if(!tipoSel){ toast('⚠️ Elige qué vas a registrar'); return; }
+    if(!selCoord){ toast('⚠️ Establece la ubicación (GPS o toca el mapa)'); return; }
+    const datos={
+      tipo: tipoSel,
+      lat: selCoord.lat,
+      lng: selCoord.lng,
+      longitud:  document.getElementById('f-longitud').value||null,
+      diametro:  document.getElementById('f-diametro').value||null,
+      material:  document.getElementById('f-material').value||null,
+      cuadrilla: document.getElementById('f-cuadrilla').value||null,
+      obs:       document.getElementById('f-obs').value||null,
+      'tipo-inf':document.getElementById('f-tipo-inf').value||null,
+      prueba:    document.querySelector('#chips-prueba .chip.sel')?.dataset.v||null,
+      'estado-punto':document.querySelector('#chips-estado-punto .chip.sel')?.dataset.v||null,
+    };
+    guardarRegistro(datos);
+    resetForm();
+  });
+
+  // TOGGLE CAPAS
   document.querySelectorAll('.li').forEach(el=>{
     el.addEventListener('click',()=>{
-      const k=el.dataset.layer,lyr=LYR[k];
+      const k=el.dataset.layer, lyr=LYRS[k];
       if(!lyr)return;
       if(el.classList.contains('on')){
-        el.classList.replace('on','off');
-        map.removeLayer(lyr);
-        toast('🚫 Oculto: '+el.querySelector('.llbl').textContent);
+        el.classList.replace('on','off'); MAP.removeLayer(lyr);
+        toast('Oculto: '+el.querySelector('.llbl').textContent);
       } else {
-        el.classList.replace('off','on');
-        map.addLayer(lyr);
-        toast('✅ Visible: '+el.querySelector('.llbl').textContent);
+        el.classList.replace('off','on'); MAP.addLayer(lyr);
+        toast('Visible: '+el.querySelector('.llbl').textContent);
       }
     });
   });
 
-  /* ── MAPA BASE ── */
+  // SELECTOR MAPA BASE
   document.querySelectorAll('.bmbtn').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      map.removeLayer(base);
-      base=TILES[btn.dataset.bm];
-      base.addTo(map);
-      Object.values(LYR).forEach(l=>{try{l.bringToFront();}catch(e){}});
+      const TILES_MAP={
+        satelite: mkTile2('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}','© Esri',18),
+        calles:   mkTile2('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png','© OSM',19),
+        topo:     mkTile2('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png','© OpenTopoMap',16),
+        oscuro:   mkTile2('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png','© CartoDB',19),
+      };
+      MAP.removeLayer(BASE);
+      BASE=TILES_MAP[btn.dataset.bm]; BASE.addTo(MAP);
+      Object.values(LYRS).forEach(l=>{try{l.bringToFront();}catch(e){}});
       document.querySelectorAll('.bmbtn').forEach(b=>b.classList.remove('on'));
       btn.classList.add('on');
-      toast('🗺️ Mapa base: '+btn.textContent.trim());
+      toast('Mapa: '+btn.textContent.trim());
     });
   });
 
-  /* ── PANEL ── */
+  // PANEL TOGGLE
   document.getElementById('btnp').addEventListener('click',()=>{
     document.getElementById('panel').classList.toggle('col');
-    setTimeout(()=>map.invalidateSize(),280);
-  });
-  map.on('click',()=>{
-    if(window.innerWidth<=640){
-      document.getElementById('panel').classList.add('col');
-      setTimeout(()=>map.invalidateSize(),280);
-    }
+    setTimeout(()=>MAP.invalidateSize(),280);
   });
 
-  /* ── TOAST ── */
-  let _tt;
-  window.toast=function(msg){
-    const t=document.getElementById('toast');
-    t.textContent=msg;t.classList.add('show');
-    clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2200);
-  };
+  // UPLOAD GeoJSON
+  document.querySelectorAll('input[type=file]').forEach(inp=>{
+    inp.addEventListener('change',function(){
+      const file=this.files[0]; if(!file)return;
+      const reader=new FileReader();
+      reader.onload=e=>{
+        try{
+          const geo=JSON.parse(e.target.result);
+          distGeo=geo; renderBase(geo);
+          document.getElementById('s-dist').textContent=calcLong(geo);
+          const lbl=document.getElementById('ulbl-dist');
+          lbl.classList.add('loaded'); lbl.querySelector('.utxt').textContent='✓ '+file.name;
+          try{const b=LYRS.dist.getBounds();if(b.isValid())MAP.fitBounds(b,{padding:[30,30]});}catch(e){}
+          toast('✅ Cargado: '+file.name+' ('+geo.features.length+' elementos)');
+        }catch(e){ toast('⚠️ Archivo inválido: '+e.message); }
+      };
+      reader.readAsText(file);
+    });
+  });
 }
+
+// ══════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════
+function mkTile2(url,attr,maxNative){
+  return L.tileLayer(url,{attribution:attr,maxNativeZoom:maxNative,maxZoom:22,
+    errorTileUrl:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'});
+}
+
+function icoMkr(color,sym){
+  return L.divIcon({
+    html:`<div style="width:24px;height:24px;background:${color};border:2px solid rgba(255,255,255,.35);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.7)">${sym}</div>`,
+    iconSize:[24,24],iconAnchor:[12,12],className:''});
+}
+
+function mkPopup(key,props){
+  const labels={dist:'Red de Distribución'};
+  const filas=Object.entries(props).filter(([,v])=>v).map(([k,v])=>
+    `<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`).join('');
+  return`<div class="ph"><div class="pdot" style="background:${COLORS[key]}"></div>
+    <div class="ptitle">${labels[key]||key}</div></div><div class="pb2">${filas||'Sin datos'}</div>`;
+}
+
+function calcLong(geo){
+  let t=0;
+  (geo.features||[]).forEach(f=>{
+    const c=f.geometry?.type==='LineString'?f.geometry.coordinates:
+            f.geometry?.type==='MultiLineString'?f.geometry.coordinates.flat():[];
+    for(let i=0;i<c.length-1;i++) t+=L.latLng(c[i][1],c[i][0]).distanceTo(L.latLng(c[i+1][1],c[i+1][0]));
+  });
+  const m=Math.round(t);
+  return m>=1000?(m/1000).toFixed(2)+' km':m+' m';
+}
+
+function mostrarCamposTipo(tipo){
+  const esLinea=['Zanja Abierta','Tendido','Zanja Tapada'].includes(tipo);
+  const esPunto=['Válvula','Cámara','Acometida'].includes(tipo);
+  document.getElementById('campos-linea').style.display=esLinea?'block':'none';
+  document.getElementById('campos-punto').style.display=esPunto?'block':'none';
+  document.getElementById('campo-prueba').style.display=tipo==='Tendido'?'block':'none';
+  document.getElementById('btn-guardar').disabled=false;
+}
+
+function resetForm(){
+  tipoSel=null; selCoord=null;
+  document.querySelectorAll('#chips-tipo .chip,.chips .chip').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('campos-contenido').style.display='none';
+  ['f-longitud','f-diametro','f-material','f-cuadrilla','f-obs','f-tipo-inf'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('coord-display').textContent='Toca el mapa o usa GPS';
+  document.getElementById('coord-val').textContent='';
+  document.getElementById('btn-guardar').disabled=true;
+}
+
+function setCoord(latlng){
+  selCoord=latlng;
+  document.getElementById('coord-display').textContent='Ubicación establecida ✓';
+  document.getElementById('coord-val').textContent=
+    latlng.lat.toFixed(6)+', '+latlng.lng.toFixed(6);
+  if(tipoSel) document.getElementById('btn-guardar').disabled=false;
+  // Marcador temporal
+  if(window._tmpMarker) MAP.removeLayer(window._tmpMarker);
+  window._tmpMarker=L.circleMarker(latlng,{radius:10,color:'#fff',fillColor:'#1f6feb',
+    fillOpacity:1,weight:3}).addTo(MAP);
+  toast('📍 Posición registrada');
+}
+
+window.usarGPS=function(){
+  cerrarModal();
+  toast('📡 Obteniendo GPS…');
+  navigator.geolocation.getCurrentPosition(
+    pos=>{ setCoord(L.latLng(pos.coords.latitude,pos.coords.longitude));
+      MAP.setView([pos.coords.latitude,pos.coords.longitude],17); },
+    err=>toast('⚠️ GPS: '+err.message),
+    {enableHighAccuracy:true,timeout:10000}
+  );
+};
+
+window.activarClickMapa=function(){
+  cerrarModal(); modoClick=true;
+  toast('👆 Toca el mapa en la ubicación exacta');
+  MAP.getContainer().style.cursor='crosshair';
+};
+
+function desactivarClickMapa(){
+  modoClick=false;
+  MAP.getContainer().style.cursor='';
+}
+
+window.cerrarModal=function(){
+  document.getElementById('modal-pos').classList.remove('open');
+};
+
+function setSyncStatus(estado,txt){
+  const el=document.getElementById('sync');
+  el.className=estado;
+  document.getElementById('sync-txt').textContent=txt;
+}
+
+let _tt;
+window.toast=function(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),2500);
+};
+window.eliminarRegistro=eliminarRegistro;
 </script>
 </body>
 </html>
