@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
-<title>CatastroMap Padilla — Red de Agua Potable</title>
+<title>CONST. RED PADILLA</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -20,9 +20,9 @@ body{display:flex;flex-direction:column;}
 #topbar{height:50px;background:var(--surf);border-bottom:1px solid var(--brd);
   display:flex;align-items:center;padding:0 12px;gap:10px;flex-shrink:0;z-index:2000;}
 .logo{width:28px;height:28px;background:var(--acc);border-radius:5px;display:flex;
-  align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+  align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
 .titles{flex:1;min-width:0;}
-.apptitle{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.apptitle{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.01em;}
 .appsub{font-size:10px;color:var(--muted);}
 .badges{display:flex;gap:5px;flex-shrink:0;}
 .badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
@@ -37,18 +37,25 @@ body{display:flex;flex-direction:column;}
 /* MAIN */
 #main{flex:1;display:flex;overflow:hidden;position:relative;}
 
-/* PANEL */
-#panel{width:var(--pw);background:var(--surf);border-right:1px solid var(--brd);
-  display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
-  transition:width .25s,opacity .25s;flex-shrink:0;z-index:1000;}
+/* PANEL — solo visible en desktop o cuando se abre en móvil */
+#panel{
+  width:var(--pw);
+  background:var(--surf);
+  border-right:1px solid var(--brd);
+  display:flex;flex-direction:column;
+  overflow-y:auto;overflow-x:hidden;
+  transition:width .25s,opacity .25s;
+  flex-shrink:0;z-index:1000;
+}
 #panel.col{width:0;opacity:0;pointer-events:none;}
+
 .ps{padding:12px;border-bottom:1px solid var(--brd);flex-shrink:0;}
 .slbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
 
 /* TABS */
-.tabs{display:flex;gap:4px;margin-bottom:2px;}
-.tab{flex:1;padding:7px 4px;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);
-  cursor:pointer;font-size:10px;font-weight:600;color:var(--muted);text-align:center;transition:all .15s;}
+.tabs{display:flex;gap:4px;}
+.tab{flex:1;padding:8px 4px;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);
+  cursor:pointer;font-size:10px;font-weight:700;color:var(--muted);text-align:center;transition:all .15s;}
 .tab.on{background:rgba(31,111,235,.2);border-color:var(--acc);color:#58a6ff;}
 
 /* BASEMAP */
@@ -56,20 +63,19 @@ body{display:flex;flex-direction:column;}
 .bmbtn{background:var(--surf2);border:1px solid var(--brd);color:var(--muted);
   padding:8px 4px;border-radius:var(--r);cursor:pointer;font-size:10px;font-weight:600;
   text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.bmbtn:hover,.bmbtn:active{border-color:var(--acc);color:var(--txt);}
 .bmbtn.on{border-color:var(--acc);background:rgba(31,111,235,.15);color:#58a6ff;}
-.bmico{font-size:20px;}
+.bmico{font-size:18px;}
 
 /* LAYER ITEMS */
 .li{display:flex;align-items:center;gap:8px;padding:8px 6px;border-radius:var(--r);
-  cursor:pointer;transition:background .12s;user-select:none;-webkit-user-select:none;}
+  cursor:pointer;user-select:none;-webkit-user-select:none;transition:background .12s;}
 .li:active{background:var(--surf2);}
 .ldot{flex-shrink:0;transition:opacity .2s;}
 .ldot.circle{width:11px;height:11px;border-radius:50%;}
 .ldot.line{width:18px;height:5px;border-radius:2px;}
 .ldot.square{width:12px;height:12px;border-radius:2px;}
 .llbl{font-size:12px;font-weight:500;flex:1;}
-.lcount{font-size:10px;color:var(--muted);background:var(--surf2);padding:1px 6px;border-radius:10px;}
+.lcount{font-size:10px;color:var(--muted);background:var(--surf2);padding:1px 6px;border-radius:10px;min-width:20px;text-align:center;}
 .ltog{width:30px;height:17px;background:var(--surf2);border-radius:9px;border:1px solid var(--brd);
   position:relative;transition:background .2s;flex-shrink:0;}
 .ltog::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;
@@ -83,10 +89,10 @@ body{display:flex;flex-direction:column;}
 .ulbl{display:flex;align-items:center;gap:6px;margin-top:5px;
   background:var(--surf2);border:1px dashed var(--brd);border-radius:var(--r);
   padding:7px 8px;cursor:pointer;width:100%;transition:border-color .15s;}
-.ulbl:hover{border-color:var(--acc);}
+.ulbl:hover,.ulbl:active{border-color:var(--acc);}
 .ulbl.loaded{border-color:var(--cam);border-style:solid;}
 .ulbl.loaded .utxt{color:var(--cam);}
-.uico{font-size:13px;}
+.uico{font-size:13px;flex-shrink:0;}
 .utxt{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 input[type=file]{display:none;}
 
@@ -105,64 +111,6 @@ input[type=file]{display:none;}
 .sname{font-size:10px;color:var(--muted);}
 .sval{font-size:11px;font-weight:700;}
 
-/* ══ PANEL REGISTRO ══ */
-#regpanel{display:none;padding:0;}
-#regpanel.open{display:block;}
-
-.reg-section{padding:12px;}
-.reg-section+.reg-section{border-top:1px solid var(--brd);}
-
-.field-label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.06em;}
-
-select,input[type=text],input[type=number],textarea{
-  width:100%;background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
-  border-radius:var(--r);padding:8px 10px;font-size:12px;outline:none;
-  font-family:inherit;transition:border-color .15s;}
-select:focus,input:focus,textarea:focus{border-color:var(--acc);}
-textarea{resize:vertical;min-height:60px;}
-
-.field{margin-bottom:10px;}
-.field:last-child{margin-bottom:0;}
-
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-
-/* ESTADO CHIPS */
-.chips{display:flex;flex-wrap:wrap;gap:5px;}
-.chip{padding:5px 10px;border-radius:20px;border:1px solid var(--brd);font-size:10px;
-  font-weight:600;cursor:pointer;background:var(--surf2);color:var(--muted);transition:all .15s;}
-.chip:active{transform:scale(.96);}
-.chip.sel{color:#fff;}
-.chip[data-v="Zanja Abierta"].sel{background:#f97316;border-color:#f97316;}
-.chip[data-v="Tendido"].sel{background:#a3e635;border-color:#a3e635;color:#000;}
-.chip[data-v="Zanja Tapada"].sel{background:#c084fc;border-color:#c084fc;}
-.chip[data-v="Abierta"].sel{background:#34d399;border-color:#34d399;color:#000;}
-.chip[data-v="Cerrada"].sel{background:#f97316;border-color:#f97316;}
-.chip[data-v="Instalada"].sel,.chip[data-v="Operativa"].sel{background:#34d399;border-color:#34d399;color:#000;}
-.chip[data-v="Pendiente"].sel{background:#facc15;border-color:#facc15;color:#000;}
-.chip[data-v="Terminado"].sel{background:#c084fc;border-color:#c084fc;}
-
-/* BTN */
-.btn{width:100%;padding:11px;border-radius:var(--r);border:none;cursor:pointer;
-  font-size:13px;font-weight:700;transition:all .15s;font-family:inherit;}
-.btn-primary{background:var(--acc);color:#fff;}
-.btn-primary:active{background:#1558c0;}
-.btn-danger{background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.3);}
-.btn-danger:active{background:rgba(248,81,73,.3);}
-.btn:disabled{opacity:.4;cursor:not-allowed;}
-
-/* LISTA REGISTROS */
-.reg-list{max-height:260px;overflow-y:auto;}
-.reg-item{padding:9px 10px;background:var(--surf2);border-radius:var(--r);margin-bottom:6px;position:relative;}
-.reg-item:last-child{margin-bottom:0;}
-.ri-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
-.ri-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.ri-title{font-size:11px;font-weight:600;flex:1;}
-.ri-time{font-size:9px;color:var(--muted);}
-.ri-body{font-size:10px;color:var(--muted);line-height:1.5;}
-.ri-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--muted);
-  cursor:pointer;font-size:14px;padding:0 4px;}
-.ri-del:active{color:#f85149;}
-
 /* MAP */
 #map{flex:1;background:#1a2332;position:relative;}
 #loading{position:absolute;inset:0;display:flex;flex-direction:column;
@@ -172,63 +120,149 @@ textarea{resize:vertical;min-height:60px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loadtxt{font-size:12px;color:var(--muted);}
 
-/* BTN FLOTAR — añadir registro desde mapa */
-#fab{position:absolute;bottom:80px;right:14px;z-index:900;
-  width:52px;height:52px;border-radius:50%;background:var(--acc);border:none;
-  color:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);
-  display:flex;align-items:center;justify-content:center;transition:transform .15s;}
-#fab:active{transform:scale(.92);}
-
-/* SYNC INDICATOR */
+/* SYNC */
 #sync{position:absolute;top:8px;right:8px;z-index:900;
-  background:var(--surf);border:1px solid var(--brd);border-radius:20px;
-  padding:4px 10px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:5px;}
+  background:rgba(22,27,34,.85);border:1px solid var(--brd);border-radius:20px;
+  padding:4px 10px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:5px;
+  backdrop-filter:blur(4px);}
 #sync.ok{color:#34d399;}#sync.err{color:#f97316;}#sync.loading{color:#58a6ff;}
 #sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
 
-/* Leaflet */
-.leaflet-control-zoom a{background:var(--surf)!important;color:var(--txt)!important;border-color:var(--brd)!important;font-weight:700!important;font-size:16px!important;}
+/* FAB */
+#fab{position:absolute;bottom:24px;right:16px;z-index:900;
+  width:56px;height:56px;border-radius:50%;background:var(--acc);border:none;
+  color:#fff;font-size:26px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(31,111,235,.6);
+  display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+#fab:active{transform:scale(.9);}
+
+/* ══ BOTTOM SHEET (móvil) ══ */
+#sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:3000;
+  background:var(--surf);border-radius:18px 18px 0 0;
+  border-top:1px solid var(--brd);
+  box-shadow:0 -8px 32px rgba(0,0,0,.6);
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.32,1,.6,1);
+  max-height:85vh;display:flex;flex-direction:column;
+}
+#sheet.open{transform:translateY(0);}
+#sheet-handle{width:36px;height:4px;background:var(--brd);border-radius:2px;
+  margin:10px auto 0;flex-shrink:0;}
+#sheet-content{overflow-y:auto;padding:12px 16px 32px;flex:1;}
+#sheet-close{position:absolute;top:12px;right:16px;background:var(--surf2);
+  border:1px solid var(--brd);color:var(--muted);width:28px;height:28px;
+  border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+
+/* ══ FORMULARIO REGISTRO ══ */
+.field{margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+.field-label{font-size:10px;font-weight:700;color:var(--muted);margin-bottom:6px;display:block;
+  text-transform:uppercase;letter-spacing:.06em;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+select,input[type=text],input[type=number],textarea{
+  width:100%;background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
+  border-radius:var(--r);padding:10px 12px;font-size:13px;outline:none;font-family:inherit;}
+select:focus,input:focus,textarea:focus{border-color:var(--acc);}
+textarea{resize:vertical;min-height:64px;}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{padding:6px 12px;border-radius:20px;border:1px solid var(--brd);font-size:11px;
+  font-weight:600;cursor:pointer;background:var(--surf2);color:var(--muted);transition:all .15s;}
+.chip:active{transform:scale(.95);}
+.chip.sel{color:#fff;border-color:transparent;}
+.chip[data-v="Zanja Abierta"].sel{background:#f97316;}
+.chip[data-v="Tendido"].sel{background:#a3e635;color:#000;}
+.chip[data-v="Zanja Tapada"].sel{background:#c084fc;}
+.chip[data-v="Válvula"].sel{background:#facc15;color:#000;}
+.chip[data-v="Cámara"].sel{background:#34d399;color:#000;}
+.chip[data-v="Acometida"].sel{background:#f472b6;}
+.chip[data-v="Aprobada"].sel,.chip[data-v="Operativa"].sel,.chip[data-v="Instalada"].sel,.chip[data-v="Abierta"].sel{background:#34d399;color:#000;}
+.chip[data-v="Pendiente"].sel{background:#facc15;color:#000;}
+.chip[data-v="Rechazada"].sel,.chip[data-v="Cerrada"].sel{background:#f85149;}
+.chip[data-v="Terminado"].sel{background:#c084fc;}
+
+/* BTN */
+.btn{width:100%;padding:13px;border-radius:var(--r);border:none;cursor:pointer;
+  font-size:14px;font-weight:700;transition:all .15s;font-family:inherit;}
+.btn-primary{background:var(--acc);color:#fff;}
+.btn-primary:active{background:#1558c0;}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+.btn-ghost{background:var(--surf2);border:1px solid var(--brd);color:var(--muted);}
+
+/* COORD BOX */
+.coord-box{display:flex;align-items:center;gap:8px;background:var(--surf2);
+  border:1px solid var(--brd);border-radius:var(--r);padding:10px 12px;}
+.coord-txt{flex:1;font-size:11px;color:var(--muted);}
+.coord-val{font-size:10px;color:var(--cam);margin-top:3px;}
+.btn-gps{background:var(--acc);color:#fff;border:none;border-radius:6px;
+  padding:8px 12px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* LISTA REGISTROS */
+.reg-list{margin-top:4px;}
+.reg-item{padding:10px 12px;background:var(--surf2);border-radius:var(--r);
+  margin-bottom:8px;position:relative;border:1px solid var(--brd);}
+.ri-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.ri-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ri-title{font-size:12px;font-weight:700;flex:1;}
+.ri-time{font-size:9px;color:var(--muted);}
+.ri-body{font-size:10px;color:var(--muted);line-height:1.5;}
+.ri-del{position:absolute;top:8px;right:8px;background:none;border:none;
+  color:var(--muted);cursor:pointer;font-size:15px;padding:2px 5px;border-radius:4px;}
+.ri-del:active{color:#f85149;}
+
+/* POPUP */
+.leaflet-control-zoom a{background:var(--surf)!important;color:var(--txt)!important;
+  border-color:var(--brd)!important;font-weight:700!important;font-size:16px!important;width:32px!important;height:32px!important;line-height:32px!important;}
 .leaflet-control-zoom a:hover{background:var(--surf2)!important;}
 .leaflet-control-attribution{background:rgba(13,17,23,.75)!important;color:var(--muted)!important;font-size:9px!important;}
 .leaflet-popup-content-wrapper{background:var(--surf)!important;border:1px solid var(--brd)!important;
   border-radius:var(--r)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;padding:0!important;color:var(--txt)!important;}
 .leaflet-popup-tip{background:var(--surf)!important;}
-.leaflet-popup-content{margin:0!important;min-width:200px!important;max-width:270px!important;}
+.leaflet-popup-content{margin:0!important;min-width:200px!important;max-width:260px!important;}
 .ph{padding:10px 12px 8px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:7px;}
 .pdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 .ptitle{font-size:12px;font-weight:700;}
 .pb2{padding:8px 12px 10px;max-height:220px;overflow-y:auto;}
 .prow{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px solid rgba(48,54,61,.5);}
 .prow:last-child{border-bottom:none;}
-.pkey{font-size:10px;color:var(--muted);white-space:nowrap;}
+.pkey{font-size:10px;color:var(--muted);}
 .pval{font-size:10px;font-weight:600;text-align:right;word-break:break-word;}
-.p-del-btn{width:100%;margin-top:8px;padding:7px;border-radius:6px;background:rgba(248,81,73,.1);
-  border:1px solid rgba(248,81,73,.3);color:#f85149;cursor:pointer;font-size:11px;font-weight:600;}
+.p-del-btn{width:100%;margin-top:8px;padding:8px;border-radius:6px;
+  background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);
+  color:#f85149;cursor:pointer;font-size:11px;font-weight:700;}
 
 /* TOAST */
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--surf2);border:1px solid var(--brd);color:var(--txt);
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(60px);
+  background:rgba(22,27,34,.95);border:1px solid var(--brd);color:var(--txt);
   padding:10px 20px;border-radius:20px;font-size:12px;font-weight:600;
   z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap;
-  box-shadow:0 4px 16px rgba(0,0,0,.5);}
+  box-shadow:0 4px 16px rgba(0,0,0,.5);backdrop-filter:blur(8px);}
 #toast.show{transform:translateX(-50%) translateY(0);}
 
-/* MODAL POSICIÓN */
-#modal-pos{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:8000;
-  align-items:flex-end;justify-content:center;}
-#modal-pos.open{display:flex;}
-.modal-box{background:var(--surf);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;}
-.modal-title{font-size:14px;font-weight:700;margin-bottom:6px;}
-.modal-sub{font-size:11px;color:var(--muted);margin-bottom:16px;}
-.modal-btns{display:flex;gap:8px;}
-.modal-btns .btn{flex:1;}
+/* ══ DESKTOP — panel siempre visible ══ */
+@media(min-width:641px){
+  #sheet{display:none!important;}
+  #fab{display:none;}
+  #panel{position:relative;}
+  #panel.col{width:0;opacity:0;}
+}
 
-/* MOBILE */
+/* ══ MOBILE ══ */
 @media(max-width:640px){
-  :root{--pw:100vw;}
-  #panel{position:absolute;top:0;left:0;height:100%;box-shadow:6px 0 24px rgba(0,0,0,.6);}
-  #panel.col{width:0;}
+  /* Panel colapsado por defecto en móvil — solo tabs capas/avance */
+  #panel{
+    position:absolute;top:0;left:0;height:100%;
+    width:var(--pw);
+    box-shadow:6px 0 24px rgba(0,0,0,.6);
+  }
+  /* En móvil el panel arranca colapsado */
+  #panel.col{width:0;opacity:0;}
+  /* Ocultar tab registro del panel lateral en móvil (lo maneja el sheet) */
+  .tab[data-tab="registro"]{display:none;}
   .bmun{display:none;}
+  #toast{bottom:100px;}
 }
 </style>
 </head>
@@ -237,8 +271,8 @@ textarea{resize:vertical;min-height:60px;}
 <div id="topbar">
   <div class="logo">P</div>
   <div class="titles">
-    <div class="apptitle">CatastroMap Padilla</div>
-    <div class="appsub">Red de Agua Potable · Tiempo Real</div>
+    <div class="apptitle">CONST. RED PADILLA</div>
+    <div class="appsub">Red de Agua Potable · Padilla, Chuquisaca</div>
   </div>
   <div class="badges">
     <span class="badge blive" id="online-badge">EN LÍNEA</span>
@@ -248,9 +282,10 @@ textarea{resize:vertical;min-height:60px;}
 </div>
 
 <div id="main">
-  <div id="panel">
 
-    <!-- TABS PRINCIPALES -->
+  <!-- PANEL LATERAL -->
+  <div id="panel" class="col">
+
     <div class="ps" style="padding-bottom:8px;">
       <div class="tabs">
         <div class="tab on" data-tab="capas">🗺️ Capas</div>
@@ -259,10 +294,9 @@ textarea{resize:vertical;min-height:60px;}
       </div>
     </div>
 
-    <!-- ══ TAB CAPAS ══ -->
+    <!-- TAB CAPAS -->
     <div id="tab-capas">
 
-      <!-- MAPA BASE -->
       <div class="ps">
         <div class="slbl">Mapa Base</div>
         <div class="bmgrid">
@@ -273,7 +307,7 @@ textarea{resize:vertical;min-height:60px;}
         </div>
       </div>
 
-      <!-- CAPAS RED BASE -->
+      <!-- RED DISEÑADA -->
       <div class="ps">
         <div class="slbl">Red Diseñada (GeoJSON)</div>
         <div class="li on" data-layer="dist">
@@ -282,12 +316,13 @@ textarea{resize:vertical;min-height:60px;}
           <div class="ltog"></div>
         </div>
         <label class="ulbl" id="ulbl-dist">
-          <span class="uico">📂</span><span class="utxt">Cargar red_distribucion.geojson</span>
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar red_distribucion.geojson</span>
           <input type="file" accept=".geojson,.json" data-target="dist"/>
         </label>
       </div>
 
-      <!-- CAPAS DINÁMICAS (Firebase) -->
+      <!-- CAPAS TIEMPO REAL -->
       <div class="ps">
         <div class="slbl">Avance en Tiempo Real</div>
         <div class="li on" data-layer="za">
@@ -296,217 +331,140 @@ textarea{resize:vertical;min-height:60px;}
           <span class="lcount" id="cnt-za">0</span>
           <div class="ltog"></div>
         </div>
-        <div class="li on" data-layer="tt">
+        <label class="ulbl" id="ulbl-za">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar zanjas_abiertas.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="za"/>
+        </label>
+
+        <div class="li on" data-layer="tt" style="margin-top:6px">
           <div class="ldot line" style="background:var(--tt)"></div>
           <span class="llbl">Tendido Tubería</span>
           <span class="lcount" id="cnt-tt">0</span>
           <div class="ltog"></div>
         </div>
-        <div class="li on" data-layer="zt">
+        <label class="ulbl" id="ulbl-tt">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar tendido_tuberia.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="tt"/>
+        </label>
+
+        <div class="li on" data-layer="zt" style="margin-top:6px">
           <div class="ldot line" style="background:var(--zt)"></div>
           <span class="llbl">Zanjas Tapadas</span>
           <span class="lcount" id="cnt-zt">0</span>
           <div class="ltog"></div>
         </div>
-        <div class="li on" data-layer="val">
+        <label class="ulbl" id="ulbl-zt">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar zanjas_tapadas.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="zt"/>
+        </label>
+
+        <div class="li on" data-layer="val" style="margin-top:6px">
           <div class="ldot circle" style="background:var(--val)"></div>
           <span class="llbl">Válvulas</span>
           <span class="lcount" id="cnt-val">0</span>
           <div class="ltog"></div>
         </div>
-        <div class="li on" data-layer="cam">
+        <label class="ulbl" id="ulbl-val">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar valvulas.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="val"/>
+        </label>
+
+        <div class="li on" data-layer="cam" style="margin-top:6px">
           <div class="ldot circle" style="background:var(--cam)"></div>
           <span class="llbl">Cámaras</span>
           <span class="lcount" id="cnt-cam">0</span>
           <div class="ltog"></div>
         </div>
-        <div class="li on" data-layer="pre">
+        <label class="ulbl" id="ulbl-cam">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar camaras.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="cam"/>
+        </label>
+
+        <div class="li on" data-layer="pre" style="margin-top:6px">
           <div class="ldot square" style="background:var(--pre)"></div>
           <span class="llbl">Predios / Acometidas</span>
           <span class="lcount" id="cnt-pre">0</span>
           <div class="ltog"></div>
         </div>
+        <label class="ulbl" id="ulbl-pre">
+          <span class="uico">📂</span>
+          <span class="utxt">Cargar predios.geojson</span>
+          <input type="file" accept=".geojson,.json" data-target="pre"/>
+        </label>
       </div>
-
     </div><!-- /tab-capas -->
 
-    <!-- ══ TAB REGISTRO ══ -->
+    <!-- TAB REGISTRO (solo desktop) -->
     <div id="tab-registro" style="display:none;">
-
-      <div class="reg-section">
-        <div class="slbl">¿Qué vas a registrar?</div>
-        <div class="field">
-          <div class="chips" id="chips-tipo">
-            <div class="chip" data-v="Zanja Abierta">🟠 Zanja Abierta</div>
-            <div class="chip" data-v="Tendido">🟢 Tendido</div>
-            <div class="chip" data-v="Zanja Tapada">🟣 Zanja Tapada</div>
-            <div class="chip" data-v="Válvula">🟡 Válvula</div>
-            <div class="chip" data-v="Cámara">🟢 Cámara</div>
-            <div class="chip" data-v="Acometida">🩷 Acometida</div>
-          </div>
-        </div>
+      <div class="ps"><div id="form-desktop"></div></div>
+      <div class="ps">
+        <div class="slbl">Últimos Registros</div>
+        <div class="reg-list" id="reg-list-desktop"></div>
       </div>
+    </div>
 
-      <!-- CAMPOS DINÁMICOS SEGÚN TIPO -->
-      <div class="reg-section" id="campos-contenido" style="display:none;">
-
-        <!-- CAMPOS ZANJAS / TENDIDO -->
-        <div id="campos-linea" style="display:none;">
-          <div class="field row2">
-            <div>
-              <label class="field-label">Longitud (m)</label>
-              <input type="number" id="f-longitud" placeholder="ej. 45"/>
-            </div>
-            <div>
-              <label class="field-label">Diámetro</label>
-              <select id="f-diametro">
-                <option value="">-- elige --</option>
-                <option>20 mm</option><option>25 mm</option><option>32 mm</option>
-                <option>40 mm</option><option>50 mm</option><option>63 mm</option>
-                <option>75 mm</option><option>90 mm</option><option>110 mm</option>
-                <option>125 mm</option><option>160 mm</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label class="field-label">Material</label>
-            <select id="f-material">
-              <option value="">-- elige --</option>
-              <option>PVC PN-6</option><option>PVC PN-10</option>
-              <option>HDPE</option><option>Fierro galvanizado</option><option>Otro</option>
-            </select>
-          </div>
-          <div class="field" id="campo-prueba" style="display:none;">
-            <label class="field-label">Prueba de Presión</label>
-            <div class="chips" id="chips-prueba">
-              <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
-              <div class="chip" data-v="Aprobada">✅ Aprobada</div>
-              <div class="chip" data-v="Rechazada">❌ Rechazada</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CAMPOS VÁLVULA / CÁMARA -->
-        <div id="campos-punto" style="display:none;">
-          <div class="field">
-            <label class="field-label">Tipo</label>
-            <select id="f-tipo-inf">
-              <option value="">-- elige --</option>
-              <option>Válvula Compuerta</option><option>Válvula Mariposa</option>
-              <option>Válvula de Purga</option><option>Válvula de Aire</option>
-              <option>Cámara Rompe-Presión</option><option>Cámara de Inspección</option>
-              <option>Llave Domiciliaria</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="field-label">Estado</label>
-            <div class="chips" id="chips-estado-punto">
-              <div class="chip" data-v="Instalada">✅ Instalada</div>
-              <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
-              <div class="chip" data-v="Operativa">🟢 Operativa</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CAMPOS COMUNES -->
-        <div class="field">
-          <label class="field-label">Cuadrilla / Responsable</label>
-          <select id="f-cuadrilla">
-            <option value="">-- elige --</option>
-            <option>Cuadrilla A</option><option>Cuadrilla B</option>
-            <option>Cuadrilla C</option><option>Dirección Técnica</option><option>Otro</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="field-label">Observación</label>
-          <textarea id="f-obs" placeholder="Notas, problemas, materiales usados..."></textarea>
-        </div>
-
-        <!-- UBICACIÓN -->
-        <div class="field">
-          <label class="field-label">Ubicación</label>
-          <div style="display:flex;gap:6px;align-items:center;">
-            <div style="flex:1;font-size:11px;color:var(--muted);" id="coord-display">Toca el mapa o usa GPS</div>
-            <button class="btn btn-primary" style="width:auto;padding:8px 10px;font-size:11px;" onclick="usarGPS()">📍 GPS</button>
-          </div>
-          <div id="coord-val" style="font-size:10px;color:var(--cam);margin-top:4px;"></div>
-        </div>
-
-        <button class="btn btn-primary" id="btn-guardar" style="margin-top:4px;" disabled>💾 Guardar Registro</button>
-      </div>
-
-      <!-- LISTA REGISTROS RECIENTES -->
-      <div class="reg-section">
-        <div class="slbl">Últimos registros</div>
-        <div class="reg-list" id="reg-list">
-          <div style="font-size:11px;color:var(--muted);text-align:center;padding:20px 0;">
-            Sin registros aún. Usa el botón ✏️ para agregar.
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /tab-registro -->
-
-    <!-- ══ TAB AVANCE ══ -->
+    <!-- TAB AVANCE -->
     <div id="tab-avance" style="display:none;padding:12px;">
-
       <div class="slbl">Progreso de Obra</div>
       <div class="pbw">
         <div class="pbh"><span class="pbt">Avance General</span><span class="pbp" id="pg">0%</span></div>
         <div class="pbb"><div class="pbf" id="bg" style="width:0%"></div></div>
       </div>
       <div class="pbw">
-        <div class="pbh"><span class="pbt">Zanjas Tapadas / Abiertas</span><span class="pbp" id="pz">0%</span></div>
+        <div class="pbh"><span class="pbt">Zanjas Tapadas</span><span class="pbp" id="pz">0%</span></div>
         <div class="pbb"><div class="pbf" id="bz" style="width:0%"></div></div>
       </div>
       <div class="pbw">
         <div class="pbh"><span class="pbt">Tendido / Total Red</span><span class="pbp" id="pt">0%</span></div>
         <div class="pbb"><div class="pbf" id="bt" style="width:0%"></div></div>
       </div>
-
       <div class="slbl" style="margin-top:16px;">Métricas</div>
-      <div class="srow"><span class="sname">Red diseñada total</span><span class="sval" id="s-dist">—</span></div>
-      <div class="srow"><span class="sname">Zanjas abiertas</span><span class="sval" id="s-za">0 tramos</span></div>
-      <div class="srow"><span class="sname">Tendido tubería</span><span class="sval" id="s-tt">0 tramos</span></div>
-      <div class="srow"><span class="sname">Zanjas tapadas</span><span class="sval" id="s-zt">0 tramos</span></div>
-      <div class="srow"><span class="sname">Válvulas instaladas</span><span class="sval" id="s-val">0</span></div>
+      <div class="srow"><span class="sname">Red diseñada</span><span class="sval" id="s-dist">—</span></div>
+      <div class="srow"><span class="sname">Zanjas abiertas</span><span class="sval" id="s-za">0</span></div>
+      <div class="srow"><span class="sname">Tendido tubería</span><span class="sval" id="s-tt">0</span></div>
+      <div class="srow"><span class="sname">Zanjas tapadas</span><span class="sval" id="s-zt">0</span></div>
+      <div class="srow"><span class="sname">Válvulas</span><span class="sval" id="s-val">0</span></div>
       <div class="srow"><span class="sname">Cámaras</span><span class="sval" id="s-cam">0</span></div>
       <div class="srow"><span class="sname">Acometidas</span><span class="sval" id="s-pre">0</span></div>
-
       <div style="margin-top:12px;padding:10px;background:var(--surf2);border-radius:var(--r);border:1px solid var(--brd);">
         <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">ÚLTIMA ACTUALIZACIÓN</div>
         <div style="font-size:11px;font-weight:600;" id="last-update">—</div>
       </div>
-
-    </div><!-- /tab-avance -->
+    </div>
 
   </div><!-- /panel -->
 
+  <!-- MAPA -->
   <div id="map">
     <div id="loading">
       <div class="spinner"></div>
       <span class="loadtxt">Cargando mapa…</span>
     </div>
-    <!-- Indicador de sync -->
-    <div id="sync" class="ok"><div id="sync-dot"></div><span id="sync-txt">Guardado</span></div>
+    <div id="sync" class="ok"><div id="sync-dot"></div><span id="sync-txt">Listo</span></div>
   </div>
 
-  <!-- FAB: tap en mapa para agregar punto -->
-  <button id="fab" title="Registrar elemento en el mapa">✏️</button>
+  <!-- FAB (solo móvil) -->
+  <button id="fab" title="Registrar elemento">✏️</button>
 
 </div><!-- /main -->
 
-<!-- MODAL POSICIÓN -->
-<div id="modal-pos">
-  <div class="modal-box">
-    <div class="modal-title">📍 ¿Cómo obtener la ubicación?</div>
-    <div class="modal-sub">Elige cómo vas a registrar la posición del elemento en campo.</div>
-    <div class="modal-btns">
-      <button class="btn btn-primary" onclick="usarGPS()">📍 Usar mi GPS</button>
-      <button class="btn" style="background:var(--surf2);border:1px solid var(--brd);color:var(--txt);"
-        onclick="activarClickMapa()">🖱️ Tocar el mapa</button>
+<!-- BOTTOM SHEET (móvil) -->
+<div id="sheet">
+  <div id="sheet-handle"></div>
+  <button id="sheet-close">✕</button>
+  <div id="sheet-content">
+    <div style="font-size:14px;font-weight:700;margin-bottom:4px;">✏️ Nuevo Registro</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Completa los datos del elemento registrado en campo</div>
+    <div id="form-mobile"></div>
+    <div style="margin-top:20px;">
+      <div class="slbl">Últimos Registros</div>
+      <div class="reg-list" id="reg-list-mobile"></div>
     </div>
-    <button class="btn" style="background:none;color:var(--muted);margin-top:8px;" onclick="cerrarModal()">Cancelar</button>
   </div>
 </div>
 
@@ -514,42 +472,34 @@ textarea{resize:vertical;min-height:60px;}
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script>
-// ══════════════════════════════════════════════════
-//  FIREBASE CONFIG
-//  ► Reemplaza estos valores con los de tu proyecto
-//    en https://console.firebase.google.com
-// ══════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// FIREBASE CONFIG — reemplaza con los tuyos
+// ══════════════════════════════════════════
 const FB_CONFIG = {
-  apiKey:            "TU_API_KEY",
-  authDomain:        "TU_PROJECT.firebaseapp.com",
-  projectId:         "TU_PROJECT_ID",
-  storageBucket:     "TU_PROJECT.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId:             "TU_APP_ID"
+  apiKey:"TU_API_KEY", authDomain:"TU_PROJECT.firebaseapp.com",
+  projectId:"TU_PROJECT_ID", storageBucket:"TU_PROJECT.appspot.com",
+  messagingSenderId:"TU_SENDER_ID", appId:"TU_APP_ID"
 };
-const USE_FIREBASE = false; // ← Cambia a true cuando configures Firebase
+const USE_FIREBASE = false; // → true cuando configures Firebase
 
-// ══════════════════════════════════════════════════
-//  ALMACENAMIENTO LOCAL (funciona sin Firebase)
-// ══════════════════════════════════════════════════
-let DB = JSON.parse(localStorage.getItem('catastro_padilla') || '[]');
-function saveDB(){ localStorage.setItem('catastro_padilla', JSON.stringify(DB)); }
+// ══════════════════════════════════════════
+// LOCAL STORAGE
+// ══════════════════════════════════════════
+let DB = JSON.parse(localStorage.getItem('red_padilla')||'[]');
+function saveDB(){ localStorage.setItem('red_padilla',JSON.stringify(DB)); }
 
-// ══════════════════════════════════════════════════
-//  CARGA LEAFLET + FIREBASE Y ARRANCA
-// ══════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// CARGA DE SCRIPTS
+// ══════════════════════════════════════════
 (function(){
   var s=document.createElement('script');
   s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-  s.onload = USE_FIREBASE ? cargarFirebase : initApp;
-  s.onerror = function(){
-    document.getElementById('loading').innerHTML=
-      '<span style="color:#f97316;font-size:12px;text-align:center;padding:20px">⚠️ Sin conexión. Verifica internet.</span>';
-  };
+  s.onload=USE_FIREBASE?loadFB:initApp;
+  s.onerror=()=>{ document.getElementById('loading').innerHTML=
+    '<span style="color:#f97316;font-size:12px;padding:20px;text-align:center">⚠️ Sin conexión. Verifica internet y recarga.</span>'; };
   document.head.appendChild(s);
 })();
-
-function cargarFirebase(){
+function loadFB(){
   var s=document.createElement('script');
   s.src='https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
   s.onload=function(){
@@ -561,238 +511,83 @@ function cargarFirebase(){
   document.head.appendChild(s);
 }
 
-// ══════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════
-let MAP, BASE, LYRS={}, selCoord=null, tipoSel=null, modoClick=false;
+// ══════════════════════════════════════════
+// CONSTANTES
+// ══════════════════════════════════════════
 const COLORS={dist:'#38bdf8',za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
 const TIPO_MAP={'Zanja Abierta':'za','Tendido':'tt','Zanja Tapada':'zt','Válvula':'val','Cámara':'cam','Acometida':'pre'};
+const KEY_COLORS={za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
 
+let MAP, BASE_LAYER, LYRS={};
+let selCoord=null, tipoSel=null, modoClick=false;
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
 function initApp(){
   document.getElementById('loading').style.display='none';
 
+  const isMobile = ()=>window.innerWidth<=640;
+
+  // En móvil arranca con panel colapsado; desktop abierto
+  if(!isMobile()) document.getElementById('panel').classList.remove('col');
+
   // ── MAPA ──
-  MAP = L.map('map',{center:[-19.3069,-64.3036],zoom:15,zoomControl:true,
-    tap:true, bounceAtZoomLimits:false});
-
-  // ── TILES con fallback de zoom ──
-  const mkTile=(url,opts)=>L.tileLayer(url,{...opts,maxNativeZoom:opts.maxNativeZoom||18,maxZoom:22,
-    errorTileUrl:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'});
-
-  const TILES={
-    satelite: mkTile('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      {attribution:'© Esri',maxNativeZoom:18}),
-    calles:   mkTile('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {attribution:'© OSM',maxNativeZoom:19}),
-    topo:     mkTile('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-      {attribution:'© OpenTopoMap',maxNativeZoom:16}),
-    oscuro:   mkTile('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      {attribution:'© CartoDB',maxNativeZoom:19}),
-  };
-  BASE=TILES.satelite; BASE.addTo(MAP);
-
-  // Inicializar grupos de capas
-  Object.keys(COLORS).forEach(k=>{ LYRS[k]=L.layerGroup().addTo(MAP); });
-
-  // ── CLIC EN MAPA para registrar posición ──
-  MAP.on('click',function(e){
-    if(window.innerWidth<=640 && !document.getElementById('panel').classList.contains('col')){
-      document.getElementById('panel').classList.add('col');
-      setTimeout(()=>MAP.invalidateSize(),280); return;
-    }
-    if(modoClick){ setCoord(e.latlng); desactivarClickMapa(); }
+  MAP = L.map('map',{
+    center:[-19.3069,-64.3036], zoom:15,
+    zoomControl:true,
+    tap:true,
+    bounceAtZoomLimits:false,
   });
 
-  // Cargar GeoJSON demo de distribución
-  cargarDemoBase();
+  // ── TILE LAYER CON ZOOM EXTENDIDO ──
+  // maxNativeZoom = límite de tiles reales disponibles
+  // maxZoom = hasta dónde puede hacer zoom (estira el tile en lugar de mostrar error)
+  function mkTile(url, opts){
+    return L.tileLayer(url, {
+      ...opts,
+      maxZoom: 22,           // permite zoom hasta 22
+      maxNativeZoom: opts.maxNativeZoom || 18, // último zoom con tiles disponibles
+      // tile en blanco en lugar de mensaje de error
+      errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+    });
+  }
 
-  // Cargar registros
+  const TILES = {
+    satelite: mkTile('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      {attribution:'© Esri World Imagery', maxNativeZoom:19}),
+    calles:   mkTile('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {attribution:'© OpenStreetMap', maxNativeZoom:19}),
+    topo:     mkTile('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+      {attribution:'© OpenTopoMap', maxNativeZoom:17}),
+    oscuro:   mkTile('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      {attribution:'© CartoDB', maxNativeZoom:19}),
+  };
+
+  BASE_LAYER = TILES.satelite;
+  BASE_LAYER.addTo(MAP);
+
+  // Grupos de capas
+  ['dist','za','tt','zt','val','cam','pre'].forEach(k=>{ LYRS[k]=L.layerGroup().addTo(MAP); });
+
+  // Clic en mapa
+  MAP.on('click', e=>{
+    if(modoClick){ setCoord(e.latlng); desactivarClickMapa(); return; }
+  });
+
+  // Render demo
+  renderDistDemo();
   cargarRegistros();
-
-  // Escuchar Firebase si está activo
   if(USE_FIREBASE) escucharFirebase();
 
-  // Indicador online
-  window.addEventListener('online', ()=>setSyncStatus('ok','En línea'));
-  window.addEventListener('offline',()=>setSyncStatus('err','Sin señal'));
+  // Online/offline
+  window.addEventListener('online', ()=>{ setSyncStatus('ok','En línea'); toast('📶 Conexión restaurada'); });
+  window.addEventListener('offline',()=>{ setSyncStatus('err','Sin señal'); toast('⚠️ Sin señal — guardando local'); });
   setSyncStatus(navigator.onLine?'ok':'err', navigator.onLine?'En línea':'Sin señal');
 
-  initUI();
-}
+  // ── UI ──
 
-// ══════════════════════════════════════════════════
-//  DATOS DEMO BASE (red diseñada)
-// ══════════════════════════════════════════════════
-const B=[-19.3069,-64.3036];
-function lin(dx1,dy1,dx2,dy2,n,p){
-  n=n||7;const c=[];
-  for(let i=0;i<=n;i++){const t=i/n;
-    c.push([B[1]+dx1+(dx2-dx1)*t+(Math.random()-.5)*.00015,
-             B[0]+dy1+(dy2-dy1)*t+(Math.random()-.5)*.00015]);}
-  return{type:'Feature',geometry:{type:'LineString',coordinates:c},properties:p||{}};
-}
-const DEMO_DIST={type:'FeatureCollection',features:[
-  lin(-.007,-.010, .007,-.010,10,{id:'T-001',diametro:'110 mm',material:'PVC',estado:'Diseñado'}),
-  lin(-.007, .007,  .007, .007,10,{id:'T-002',diametro:'63 mm',material:'PVC',estado:'Diseñado'}),
-  lin(-.005,-.010, -.005, .008,10,{id:'T-003',diametro:'90 mm',material:'HDPE',estado:'Diseñado'}),
-  lin( .005,-.010,  .005, .008,10,{id:'T-004',diametro:'63 mm',material:'PVC',estado:'Diseñado'}),
-  lin(-.007,-.010, -.007, .008, 8,{id:'T-005',diametro:'75 mm',material:'PVC',estado:'Diseñado'}),
-  lin(-.007,-.010,  .007,-.010, 6,{id:'T-006',diametro:'110 mm',material:'PVC',estado:'Diseñado'}),
-]};
-let distGeo=DEMO_DIST;
-
-function cargarDemoBase(){
-  renderBase(DEMO_DIST);
-  document.getElementById('s-dist').textContent=calcLong(DEMO_DIST);
-}
-function renderBase(geo){
-  LYRS.dist.clearLayers();
-  L.geoJSON(geo,{
-    style:{color:'#38bdf8',weight:3,opacity:.85,dashArray:'6 3'},
-    onEachFeature:(f,l)=>l.bindPopup(mkPopup('dist',f.properties))
-  }).addTo(LYRS.dist);
-}
-
-// ══════════════════════════════════════════════════
-//  REGISTROS (LocalStorage + Firebase)
-// ══════════════════════════════════════════════════
-function cargarRegistros(){
-  LYRS.za.clearLayers(); LYRS.tt.clearLayers(); LYRS.zt.clearLayers();
-  LYRS.val.clearLayers(); LYRS.cam.clearLayers(); LYRS.pre.clearLayers();
-  DB.forEach(r=>pintarRegistro(r));
-  actualizarContadores();
-  actualizarListaRegistros();
-  actualizarAvance();
-}
-
-function pintarRegistro(r){
-  if(!r.lat||!r.lng) return;
-  const ll=L.latLng(r.lat,r.lng);
-  const key=TIPO_MAP[r.tipo]||'za';
-  const color=COLORS[key]||'#aaa';
-  let layer;
-  if(['Válvula','Cámara','Acometida'].includes(r.tipo)){
-    layer=L.marker(ll,{icon:icoMkr(color, r.tipo==='Válvula'?'⚙':r.tipo==='Cámara'?'◉':'🏠')});
-  } else {
-    // Para zanjas y tendido, crear un círculo pequeño (punto de registro)
-    layer=L.circleMarker(ll,{radius:8,color:color,fillColor:color,fillOpacity:.8,weight:2});
-  }
-  layer.bindPopup(mkPopupReg(r,color));
-  LYRS[key].addLayer(layer);
-  r._layer=layer; r._lyrKey=key;
-}
-
-function mkPopupReg(r,color){
-  const filas=Object.entries(r)
-    .filter(([k])=>!['id','_layer','_lyrKey','lat','lng'].includes(k)&&r[k])
-    .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`)
-    .join('');
-  const delBtn=`<button class="p-del-btn" onclick="eliminarRegistro('${r.id}')">🗑 Eliminar este registro</button>`;
-  return`<div class="ph"><div class="pdot" style="background:${color}"></div>
-    <div class="ptitle">${r.tipo}</div></div><div class="pb2">${filas}${delBtn}</div>`;
-}
-
-function guardarRegistro(datos){
-  datos.id = Date.now().toString();
-  datos.fecha = new Date().toLocaleString('es-BO');
-  datos.usuario = 'Equipo Técnico';
-  DB.push(datos);
-  saveDB();
-  if(USE_FIREBASE){
-    setSyncStatus('loading','Guardando…');
-    firebase.firestore().collection('registros_padilla').doc(datos.id).set(datos)
-      .then(()=>setSyncStatus('ok','Guardado ✓'))
-      .catch(e=>{ setSyncStatus('err','Error sync'); console.warn(e); });
-  }
-  pintarRegistro(datos);
-  actualizarContadores();
-  actualizarListaRegistros();
-  actualizarAvance();
-  document.getElementById('last-update').textContent=datos.fecha+' · '+datos.tipo;
-  toast('✅ Registrado: '+datos.tipo+' ('+datos.fecha+')');
-}
-
-function eliminarRegistro(id){
-  const idx=DB.findIndex(r=>r.id===id);
-  if(idx===-1)return;
-  const r=DB[idx];
-  if(r._layer && LYRS[r._lyrKey]) LYRS[r._lyrKey].removeLayer(r._layer);
-  DB.splice(idx,1);
-  saveDB();
-  if(USE_FIREBASE) firebase.firestore().collection('registros_padilla').doc(id).delete().catch(console.warn);
-  actualizarContadores(); actualizarListaRegistros(); actualizarAvance();
-  MAP.closePopup();
-  toast('🗑 Registro eliminado');
-}
-
-function escucharFirebase(){
-  firebase.firestore().collection('registros_padilla')
-    .onSnapshot(snap=>{
-      DB=[];
-      snap.forEach(doc=>DB.push({...doc.data(),id:doc.id}));
-      cargarRegistros();
-      setSyncStatus('ok','Sincronizado');
-    }, err=>{ setSyncStatus('err','Error Firebase'); console.warn(err); });
-}
-
-// ══════════════════════════════════════════════════
-//  CONTADORES Y AVANCE
-// ══════════════════════════════════════════════════
-function actualizarContadores(){
-  const cnt={'za':0,'tt':0,'zt':0,'val':0,'cam':0,'pre':0};
-  DB.forEach(r=>{ const k=TIPO_MAP[r.tipo]; if(k) cnt[k]++; });
-  Object.keys(cnt).forEach(k=>{
-    const el=document.getElementById('cnt-'+k);
-    if(el) el.textContent=cnt[k];
-  });
-  document.getElementById('s-za').textContent=cnt.za+' tramos';
-  document.getElementById('s-tt').textContent=cnt.tt+' tramos';
-  document.getElementById('s-zt').textContent=cnt.zt+' tramos';
-  document.getElementById('s-val').textContent=cnt.val+' unid.';
-  document.getElementById('s-cam').textContent=cnt.cam+' unid.';
-  document.getElementById('s-pre').textContent=cnt.pre+' acometidas';
-}
-
-function actualizarAvance(){
-  const cnt={'za':0,'tt':0,'zt':0};
-  DB.forEach(r=>{ const k=TIPO_MAP[r.tipo]; if(k&&cnt[k]!==undefined) cnt[k]++; });
-  const tot=cnt.za+cnt.tt+cnt.zt||1;
-  const pz=Math.round(cnt.zt/(cnt.za+cnt.zt||1)*100);
-  const pt=Math.round(cnt.tt/tot*100);
-  const pg=Math.round((cnt.zt*2+cnt.tt)/(tot*2)*100);
-  setTimeout(()=>{
-    document.getElementById('pz').textContent=pz+'%'; document.getElementById('bz').style.width=pz+'%';
-    document.getElementById('pt').textContent=pt+'%'; document.getElementById('bt').style.width=pt+'%';
-    document.getElementById('pg').textContent=pg+'%'; document.getElementById('bg').style.width=pg+'%';
-  },300);
-}
-
-function actualizarListaRegistros(){
-  const el=document.getElementById('reg-list');
-  if(!DB.length){
-    el.innerHTML='<div style="font-size:11px;color:var(--muted);text-align:center;padding:20px 0;">Sin registros aún.</div>'; return;
-  }
-  const sorted=[...DB].reverse().slice(0,20);
-  const key_colors={za:'#f97316',tt:'#a3e635',zt:'#c084fc',val:'#facc15',cam:'#34d399',pre:'#f472b6'};
-  el.innerHTML=sorted.map(r=>{
-    const k=TIPO_MAP[r.tipo]||'za'; const c=key_colors[k]||'#aaa';
-    const resumen=[r.diametro,r.material,r.longitud?r.longitud+'m':'',r.cuadrilla,r['tipo-inf']].filter(Boolean).join(' · ');
-    return`<div class="reg-item">
-      <button class="ri-del" onclick="eliminarRegistro('${r.id}')">✕</button>
-      <div class="ri-top"><div class="ri-dot" style="background:${c}"></div>
-        <span class="ri-title">${r.tipo}</span>
-        <span class="ri-time">${r.fecha||''}</span></div>
-      <div class="ri-body">${resumen||r.obs||'Sin detalles'}</div>
-    </div>`;
-  }).join('');
-}
-
-// ══════════════════════════════════════════════════
-//  UI: TABS, CHIPS, FORMULARIO
-// ══════════════════════════════════════════════════
-function initUI(){
-
-  // TABS
+  // Tabs
   document.querySelectorAll('.tab').forEach(t=>{
     t.addEventListener('click',()=>{
       document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
@@ -804,80 +599,28 @@ function initUI(){
     });
   });
 
-  // FAB → abre tab registro
-  document.getElementById('fab').addEventListener('click',()=>{
-    document.getElementById('panel').classList.remove('col');
+  // Panel toggle
+  document.getElementById('btnp').addEventListener('click',()=>{
+    const p=document.getElementById('panel');
+    p.classList.toggle('col');
     setTimeout(()=>MAP.invalidateSize(),280);
-    document.querySelector('.tab[data-tab="registro"]').click();
-    document.getElementById('modal-pos').classList.add('open');
   });
 
-  // CHIPS TIPO
-  document.querySelectorAll('#chips-tipo .chip').forEach(c=>{
-    c.addEventListener('click',()=>{
-      document.querySelectorAll('#chips-tipo .chip').forEach(x=>x.classList.remove('sel'));
-      c.classList.add('sel'); tipoSel=c.dataset.v;
-      mostrarCamposTipo(tipoSel);
-      document.getElementById('campos-contenido').style.display='block';
-    });
+  // FAB → abre bottom sheet en móvil
+  document.getElementById('fab').addEventListener('click',()=>{
+    abrirSheet();
   });
 
-  // CHIPS genéricos
-  document.querySelectorAll('.chips:not(#chips-tipo) .chip').forEach(c=>{
-    c.addEventListener('click',()=>{
-      const parent=c.closest('.chips');
-      parent.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
-      c.classList.add('sel');
-    });
-  });
+  // Sheet close
+  document.getElementById('sheet-close').addEventListener('click',cerrarSheet);
+  document.getElementById('sheet-handle').addEventListener('click',cerrarSheet);
 
-  // BOTÓN GUARDAR
-  document.getElementById('btn-guardar').addEventListener('click',()=>{
-    if(!tipoSel){ toast('⚠️ Elige qué vas a registrar'); return; }
-    if(!selCoord){ toast('⚠️ Establece la ubicación (GPS o toca el mapa)'); return; }
-    const datos={
-      tipo: tipoSel,
-      lat: selCoord.lat,
-      lng: selCoord.lng,
-      longitud:  document.getElementById('f-longitud').value||null,
-      diametro:  document.getElementById('f-diametro').value||null,
-      material:  document.getElementById('f-material').value||null,
-      cuadrilla: document.getElementById('f-cuadrilla').value||null,
-      obs:       document.getElementById('f-obs').value||null,
-      'tipo-inf':document.getElementById('f-tipo-inf').value||null,
-      prueba:    document.querySelector('#chips-prueba .chip.sel')?.dataset.v||null,
-      'estado-punto':document.querySelector('#chips-estado-punto .chip.sel')?.dataset.v||null,
-    };
-    guardarRegistro(datos);
-    resetForm();
-  });
-
-  // TOGGLE CAPAS
-  document.querySelectorAll('.li').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const k=el.dataset.layer, lyr=LYRS[k];
-      if(!lyr)return;
-      if(el.classList.contains('on')){
-        el.classList.replace('on','off'); MAP.removeLayer(lyr);
-        toast('Oculto: '+el.querySelector('.llbl').textContent);
-      } else {
-        el.classList.replace('off','on'); MAP.addLayer(lyr);
-        toast('Visible: '+el.querySelector('.llbl').textContent);
-      }
-    });
-  });
-
-  // SELECTOR MAPA BASE
+  // Selector mapa base
   document.querySelectorAll('.bmbtn').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const TILES_MAP={
-        satelite: mkTile2('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}','© Esri',18),
-        calles:   mkTile2('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png','© OSM',19),
-        topo:     mkTile2('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png','© OpenTopoMap',16),
-        oscuro:   mkTile2('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png','© CartoDB',19),
-      };
-      MAP.removeLayer(BASE);
-      BASE=TILES_MAP[btn.dataset.bm]; BASE.addTo(MAP);
+      MAP.removeLayer(BASE_LAYER);
+      BASE_LAYER=TILES[btn.dataset.bm];
+      BASE_LAYER.addTo(MAP);
       Object.values(LYRS).forEach(l=>{try{l.bringToFront();}catch(e){}});
       document.querySelectorAll('.bmbtn').forEach(b=>b.classList.remove('on'));
       btn.classList.add('on');
@@ -885,57 +628,449 @@ function initUI(){
     });
   });
 
-  // PANEL TOGGLE
-  document.getElementById('btnp').addEventListener('click',()=>{
-    document.getElementById('panel').classList.toggle('col');
-    setTimeout(()=>MAP.invalidateSize(),280);
+  // Toggle capas
+  document.querySelectorAll('.li').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const k=el.dataset.layer;
+      if(!LYRS[k]) return;
+      if(el.classList.contains('on')){
+        el.classList.replace('on','off'); MAP.removeLayer(LYRS[k]);
+      } else {
+        el.classList.replace('off','on'); MAP.addLayer(LYRS[k]);
+      }
+    });
   });
 
-  // UPLOAD GeoJSON
+  // Upload GeoJSON
   document.querySelectorAll('input[type=file]').forEach(inp=>{
-    inp.addEventListener('change',function(){
-      const file=this.files[0]; if(!file)return;
+    inp.addEventListener('change', function(){
+      const file=this.files[0]; if(!file) return;
+      const key=this.dataset.target;
       const reader=new FileReader();
       reader.onload=e=>{
         try{
           const geo=JSON.parse(e.target.result);
-          distGeo=geo; renderBase(geo);
-          document.getElementById('s-dist').textContent=calcLong(geo);
-          const lbl=document.getElementById('ulbl-dist');
-          lbl.classList.add('loaded'); lbl.querySelector('.utxt').textContent='✓ '+file.name;
-          try{const b=LYRS.dist.getBounds();if(b.isValid())MAP.fitBounds(b,{padding:[30,30]});}catch(e){}
-          toast('✅ Cargado: '+file.name+' ('+geo.features.length+' elementos)');
-        }catch(e){ toast('⚠️ Archivo inválido: '+e.message); }
+          if(!geo.type||!geo.features) throw new Error('No es GeoJSON válido');
+          if(key==='dist'){
+            renderDistGeo(geo);
+            document.getElementById('s-dist').textContent=calcLong(geo);
+          } else {
+            // Reemplaza capa con el geojson cargado
+            LYRS[key].clearLayers();
+            renderGeoLayer(key, geo);
+          }
+          // Marcar botón como cargado
+          const lbl=document.getElementById('ulbl-'+key);
+          if(lbl){ lbl.classList.add('loaded'); lbl.querySelector('.utxt').textContent='✓ '+file.name; }
+          try{ const b=LYRS[key].getBounds(); if(b.isValid()) MAP.fitBounds(b,{padding:[40,40]}); }catch(e){}
+          toast('✅ '+file.name+' cargado ('+geo.features.length+' elementos)');
+        } catch(e){ toast('⚠️ Error: '+e.message); }
       };
       reader.readAsText(file);
     });
   });
+
+  // Render formularios
+  renderFormulario('form-desktop');
+  renderFormulario('form-mobile');
+  actualizarListas();
 }
 
-// ══════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════
-function mkTile2(url,attr,maxNative){
-  return L.tileLayer(url,{attribution:attr,maxNativeZoom:maxNative,maxZoom:22,
-    errorTileUrl:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'});
+// ══════════════════════════════════════════
+// MAPA BASE DEMO
+// ══════════════════════════════════════════
+const B=[-19.3069,-64.3036];
+function lin(dx1,dy1,dx2,dy2,n,p){
+  n=n||7; const c=[];
+  for(let i=0;i<=n;i++){
+    const t=i/n;
+    c.push([B[1]+dx1+(dx2-dx1)*t+(Math.random()-.5)*.00015,
+             B[0]+dy1+(dy2-dy1)*t+(Math.random()-.5)*.00015]);
+  }
+  return{type:'Feature',geometry:{type:'LineString',coordinates:c},properties:p||{}};
+}
+const DEMO_GEO={type:'FeatureCollection',features:[
+  lin(-.007,-.010,.007,-.010,10,{id:'T-001',diametro:'110 mm',material:'PVC'}),
+  lin(-.007,.007,.007,.007,10,{id:'T-002',diametro:'63 mm',material:'PVC'}),
+  lin(-.005,-.010,-.005,.008,10,{id:'T-003',diametro:'90 mm',material:'HDPE'}),
+  lin(.005,-.010,.005,.008,10,{id:'T-004',diametro:'63 mm',material:'PVC'}),
+  lin(-.007,-.010,-.007,.008,8,{id:'T-005',diametro:'75 mm',material:'PVC'}),
+]};
+function renderDistDemo(){ renderDistGeo(DEMO_GEO); document.getElementById('s-dist').textContent=calcLong(DEMO_GEO); }
+function renderDistGeo(geo){
+  LYRS.dist.clearLayers();
+  L.geoJSON(geo,{
+    style:{color:'#38bdf8',weight:3,opacity:.85,dashArray:'6 3'},
+    onEachFeature:(f,l)=>l.bindPopup(mkPopup('dist',f.properties,'Red de Distribución'))
+  }).addTo(LYRS.dist);
+}
+function renderGeoLayer(key,geo){
+  const labels={za:'Zanja Abierta',tt:'Tendido Tubería',zt:'Zanja Tapada',val:'Válvula',cam:'Cámara',pre:'Predio/Acometida'};
+  const c=COLORS[key]||'#aaa';
+  const isPoint=(geo.features||[]).some(f=>f.geometry?.type==='Point'||f.geometry?.type==='MultiPoint');
+  L.geoJSON(geo,{
+    style:{color:c,weight:3,opacity:.9,fillColor:c,fillOpacity:.15},
+    pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:8,color:c,fillColor:c,fillOpacity:.8,weight:2}),
+    onEachFeature:(f,l)=>l.bindPopup(mkPopup(key,f.properties,labels[key]||key))
+  }).addTo(LYRS[key]);
+  const n=(geo.features||[]).length;
+  const el=document.getElementById('cnt-'+key);
+  if(el) el.textContent=n;
 }
 
-function icoMkr(color,sym){
-  return L.divIcon({
-    html:`<div style="width:24px;height:24px;background:${color};border:2px solid rgba(255,255,255,.35);
-      border-radius:50%;display:flex;align-items:center;justify-content:center;
-      font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.7)">${sym}</div>`,
-    iconSize:[24,24],iconAnchor:[12,12],className:''});
+// ══════════════════════════════════════════
+// REGISTROS
+// ══════════════════════════════════════════
+function cargarRegistros(){
+  ['za','tt','zt','val','cam','pre'].forEach(k=>LYRS[k].clearLayers());
+  DB.forEach(r=>pintarRegistro(r));
+  actualizarContadores();
+  actualizarListas();
+  actualizarAvance();
 }
 
-function mkPopup(key,props){
-  const labels={dist:'Red de Distribución'};
-  const filas=Object.entries(props).filter(([,v])=>v).map(([k,v])=>
-    `<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`).join('');
-  return`<div class="ph"><div class="pdot" style="background:${COLORS[key]}"></div>
-    <div class="ptitle">${labels[key]||key}</div></div><div class="pb2">${filas||'Sin datos'}</div>`;
+function pintarRegistro(r){
+  if(!r.lat||!r.lng) return;
+  const ll=L.latLng(r.lat,r.lng);
+  const key=TIPO_MAP[r.tipo]||'za';
+  const color=COLORS[key]||'#aaa';
+  const sym=r.tipo==='Válvula'?'⚙':r.tipo==='Cámara'?'◉':r.tipo==='Acometida'?'🏠':null;
+  let layer;
+  if(sym){
+    layer=L.marker(ll,{icon:L.divIcon({
+      html:`<div style="width:24px;height:24px;background:${color};border:2px solid rgba(255,255,255,.35);
+        border-radius:50%;display:flex;align-items:center;justify-content:center;
+        font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.7)">${sym}</div>`,
+      iconSize:[24,24],iconAnchor:[12,12],className:''})});
+  } else {
+    layer=L.circleMarker(ll,{radius:9,color:color,fillColor:color,fillOpacity:.85,weight:2});
+  }
+  layer.bindPopup(mkPopupReg(r,color));
+  LYRS[key].addLayer(layer);
+  r._layer=layer; r._lyrKey=key;
 }
 
+function mkPopupReg(r,color){
+  const skip=['id','_layer','_lyrKey','lat','lng'];
+  const filas=Object.entries(r).filter(([k,v])=>!skip.includes(k)&&v)
+    .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`).join('');
+  return`<div class="ph"><div class="pdot" style="background:${color}"></div>
+    <div class="ptitle">${r.tipo}</div></div>
+    <div class="pb2">${filas}
+    <button class="p-del-btn" onclick="eliminarRegistro('${r.id}')">🗑 Eliminar</button></div>`;
+}
+
+function guardarRegistro(datos){
+  datos.id=Date.now().toString();
+  datos.fecha=new Date().toLocaleString('es-BO',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+  DB.push(datos); saveDB();
+  if(USE_FIREBASE){
+    setSyncStatus('loading','Guardando…');
+    firebase.firestore().collection('registros_padilla').doc(datos.id).set(datos)
+      .then(()=>setSyncStatus('ok','Guardado ✓'))
+      .catch(e=>{setSyncStatus('err','Error sync');console.warn(e);});
+  }
+  pintarRegistro(datos);
+  actualizarContadores(); actualizarListas(); actualizarAvance();
+  document.getElementById('last-update').textContent=datos.fecha+' · '+datos.tipo;
+  toast('✅ Registrado: '+datos.tipo);
+  // En móvil: cerrar sheet después de guardar
+  if(window.innerWidth<=640) setTimeout(cerrarSheet,800);
+}
+
+window.eliminarRegistro=function(id){
+  const idx=DB.findIndex(r=>r.id===id); if(idx===-1) return;
+  const r=DB[idx];
+  if(r._layer&&LYRS[r._lyrKey]) LYRS[r._lyrKey].removeLayer(r._layer);
+  DB.splice(idx,1); saveDB();
+  if(USE_FIREBASE) firebase.firestore().collection('registros_padilla').doc(id).delete().catch(console.warn);
+  actualizarContadores(); actualizarListas(); actualizarAvance();
+  MAP.closePopup(); toast('🗑 Registro eliminado');
+};
+
+function escucharFirebase(){
+  firebase.firestore().collection('registros_padilla').onSnapshot(snap=>{
+    DB=[]; snap.forEach(doc=>DB.push({...doc.data(),id:doc.id}));
+    cargarRegistros(); setSyncStatus('ok','Sincronizado ✓');
+  }, e=>{setSyncStatus('err','Error Firebase');console.warn(e);});
+}
+
+// ══════════════════════════════════════════
+// ESTADÍSTICAS Y AVANCE
+// ══════════════════════════════════════════
+function actualizarContadores(){
+  const cnt={za:0,tt:0,zt:0,val:0,cam:0,pre:0};
+  DB.forEach(r=>{const k=TIPO_MAP[r.tipo];if(k) cnt[k]++;});
+  Object.keys(cnt).forEach(k=>{
+    const el=document.getElementById('cnt-'+k); if(el) el.textContent=cnt[k];
+    const s=document.getElementById('s-'+k); if(s) s.textContent=cnt[k]+(k==='pre'?' acometidas':k==='val'||k==='cam'?' unid.':' tramos');
+  });
+}
+function actualizarAvance(){
+  const cnt={za:0,tt:0,zt:0};
+  DB.forEach(r=>{const k=TIPO_MAP[r.tipo];if(k&&cnt[k]!==undefined)cnt[k]++;});
+  const tot=cnt.za+cnt.tt+cnt.zt||1;
+  const pz=Math.round(cnt.zt/(cnt.za+cnt.zt||1)*100);
+  const pt=Math.round(cnt.tt/tot*100);
+  const pg=Math.round((cnt.zt*2+cnt.tt)/(tot*2)*100);
+  setTimeout(()=>{
+    ['pz','pt','pg'].forEach((id,i)=>{
+      const v=[pz,pt,pg][i];
+      document.getElementById(id).textContent=v+'%';
+      document.getElementById(['bz','bt','bg'][i]).style.width=v+'%';
+    });
+  },300);
+}
+function actualizarListas(){
+  const html = DB.length===0
+    ? '<div style="font-size:11px;color:var(--muted);text-align:center;padding:16px 0;">Sin registros aún.<br>Toca ✏️ para agregar.</div>'
+    : [...DB].reverse().slice(0,15).map(r=>{
+        const k=TIPO_MAP[r.tipo]||'za'; const c=KEY_COLORS[k]||'#aaa';
+        const res=[r.diametro,r.material,r.longitud?r.longitud+'m':'',r.cuadrilla].filter(Boolean).join(' · ');
+        return`<div class="reg-item">
+          <button class="ri-del" onclick="eliminarRegistro('${r.id}')">✕</button>
+          <div class="ri-top"><div class="ri-dot" style="background:${c}"></div>
+            <span class="ri-title">${r.tipo}</span>
+            <span class="ri-time">${r.fecha||''}</span></div>
+          <div class="ri-body">${res||r.obs||'Sin detalles'}</div>
+        </div>`;
+      }).join('');
+  document.getElementById('reg-list-desktop').innerHTML=html;
+  document.getElementById('reg-list-mobile').innerHTML=html;
+}
+
+// ══════════════════════════════════════════
+// FORMULARIO (compartido desktop / mobile)
+// ══════════════════════════════════════════
+function renderFormulario(containerId){
+  document.getElementById(containerId).innerHTML=`
+  <div class="field">
+    <label class="field-label">¿Qué vas a registrar?</label>
+    <div class="chips chips-tipo-${containerId}">
+      <div class="chip" data-v="Zanja Abierta">🟠 Zanja Abierta</div>
+      <div class="chip" data-v="Tendido">🟢 Tendido</div>
+      <div class="chip" data-v="Zanja Tapada">🟣 Zanja Tapada</div>
+      <div class="chip" data-v="Válvula">🟡 Válvula</div>
+      <div class="chip" data-v="Cámara">🟢 Cámara</div>
+      <div class="chip" data-v="Acometida">🩷 Acometida</div>
+    </div>
+  </div>
+  <div class="campos-extra-${containerId}" style="display:none;">
+    <div class="campos-linea-${containerId}">
+      <div class="field row2">
+        <div><label class="field-label">Longitud (m)</label>
+          <input type="number" class="f-longitud" placeholder="ej. 45"/></div>
+        <div><label class="field-label">Diámetro</label>
+          <select class="f-diametro">
+            <option value="">-- elige --</option>
+            <option>20 mm</option><option>25 mm</option><option>32 mm</option>
+            <option>40 mm</option><option>50 mm</option><option>63 mm</option>
+            <option>75 mm</option><option>90 mm</option><option>110 mm</option>
+            <option>125 mm</option><option>160 mm</option>
+          </select></div>
+      </div>
+      <div class="field">
+        <label class="field-label">Material</label>
+        <select class="f-material">
+          <option value="">-- elige --</option>
+          <option>PVC PN-6</option><option>PVC PN-10</option>
+          <option>HDPE</option><option>Fierro galvanizado</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="campo-prueba-${containerId}" style="display:none;">
+        <div class="field">
+          <label class="field-label">Prueba de Presión</label>
+          <div class="chips chips-prueba-${containerId}">
+            <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
+            <div class="chip" data-v="Aprobada">✅ Aprobada</div>
+            <div class="chip" data-v="Rechazada">❌ Rechazada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="campos-punto-${containerId}" style="display:none;">
+      <div class="field">
+        <label class="field-label">Tipo específico</label>
+        <select class="f-tipo-inf">
+          <option value="">-- elige --</option>
+          <option>Válvula Compuerta</option><option>Válvula Mariposa</option>
+          <option>Válvula Purga</option><option>Válvula Aire</option>
+          <option>Cámara Rompe-Presión</option><option>Cámara Inspección</option>
+          <option>Llave Domiciliaria</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Estado</label>
+        <div class="chips chips-estado-${containerId}">
+          <div class="chip" data-v="Instalada">✅ Instalada</div>
+          <div class="chip" data-v="Pendiente">⏳ Pendiente</div>
+          <div class="chip" data-v="Operativa">🟢 Operativa</div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Cuadrilla / Responsable</label>
+      <select class="f-cuadrilla">
+        <option value="">-- elige --</option>
+        <option>Cuadrilla A</option><option>Cuadrilla B</option>
+        <option>Cuadrilla C</option><option>Dirección Técnica</option><option>Otro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label">Observación</label>
+      <textarea class="f-obs" placeholder="Notas, materiales, problemas…"></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label">Ubicación GPS</label>
+      <div class="coord-box">
+        <div>
+          <div class="coord-txt f-coord-txt">Sin ubicación</div>
+          <div class="coord-val f-coord-val"></div>
+        </div>
+        <button class="btn-gps" onclick="usarGPS(this)">📍 GPS</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:5px;">
+        O toca el mapa para marcar la posición
+      </div>
+    </div>
+    <button class="btn btn-primary f-guardar" disabled style="margin-top:4px;">💾 Guardar Registro</button>
+  </div>`;
+
+  // Chips tipo
+  document.querySelectorAll('.chips-tipo-'+containerId+' .chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      document.querySelectorAll('.chips-tipo-'+containerId+' .chip').forEach(x=>x.classList.remove('sel'));
+      c.classList.add('sel');
+      const tipo=c.dataset.v;
+      // Guardar tipo seleccionado en el contenedor
+      document.getElementById(containerId).dataset.tipo=tipo;
+      const esLinea=['Zanja Abierta','Tendido','Zanja Tapada'].includes(tipo);
+      const esPunto=['Válvula','Cámara','Acometida'].includes(tipo);
+      document.querySelector('.campos-linea-'+containerId).style.display=esLinea?'block':'none';
+      document.querySelector('.campos-punto-'+containerId).style.display=esPunto?'block':'none';
+      document.querySelector('.campo-prueba-'+containerId).style.display=tipo==='Tendido'?'block':'none';
+      document.querySelector('.campos-extra-'+containerId).style.display='block';
+      checkGuardar(containerId);
+    });
+  });
+
+  // Chips genéricos
+  ['.chips-prueba-'+containerId, '.chips-estado-'+containerId].forEach(sel=>{
+    document.querySelectorAll(sel+' .chip').forEach(c=>{
+      c.addEventListener('click',()=>{
+        document.querySelectorAll(sel+' .chip').forEach(x=>x.classList.remove('sel'));
+        c.classList.add('sel');
+      });
+    });
+  });
+
+  // Botón guardar
+  document.querySelector('#'+containerId+' .f-guardar').addEventListener('click',()=>{
+    const tipo=document.getElementById(containerId).dataset.tipo;
+    if(!tipo){ toast('⚠️ Elige qué vas a registrar'); return; }
+    const coord=getCoord(containerId);
+    if(!coord){ toast('⚠️ Establece la ubicación (GPS o toca el mapa)'); return; }
+    const datos={
+      tipo,
+      lat:coord.lat, lng:coord.lng,
+      longitud:  document.querySelector('#'+containerId+' .f-longitud')?.value||null,
+      diametro:  document.querySelector('#'+containerId+' .f-diametro')?.value||null,
+      material:  document.querySelector('#'+containerId+' .f-material')?.value||null,
+      cuadrilla: document.querySelector('#'+containerId+' .f-cuadrilla')?.value||null,
+      obs:       document.querySelector('#'+containerId+' .f-obs')?.value||null,
+      'tipo-inf':document.querySelector('#'+containerId+' .f-tipo-inf')?.value||null,
+      prueba:    document.querySelector('.chips-prueba-'+containerId+' .chip.sel')?.dataset.v||null,
+      estado:    document.querySelector('.chips-estado-'+containerId+' .chip.sel')?.dataset.v||null,
+    };
+    guardarRegistro(datos);
+    resetFormulario(containerId);
+  });
+}
+
+function getCoord(containerId){
+  const c=document.getElementById(containerId).dataset.coord;
+  return c?JSON.parse(c):null;
+}
+function setCoordForm(latlng){
+  const txt=latlng.lat.toFixed(6)+', '+latlng.lng.toFixed(6);
+  ['form-desktop','form-mobile'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.dataset.coord=JSON.stringify({lat:latlng.lat,lng:latlng.lng});
+    const ct=el.querySelector('.f-coord-txt'); if(ct) ct.textContent='Ubicación establecida ✓';
+    const cv=el.querySelector('.f-coord-val'); if(cv) cv.textContent=txt;
+    checkGuardar(id);
+  });
+  // Marcador temporal
+  if(window._tmpMkr) MAP.removeLayer(window._tmpMkr);
+  window._tmpMkr=L.circleMarker(latlng,{radius:10,color:'#fff',fillColor:'#1f6feb',fillOpacity:1,weight:3}).addTo(MAP);
+  toast('📍 Posición marcada');
+}
+function checkGuardar(containerId){
+  const tipo=document.getElementById(containerId).dataset.tipo;
+  const coord=getCoord(containerId);
+  const btn=document.querySelector('#'+containerId+' .f-guardar');
+  if(btn) btn.disabled=!(tipo&&coord);
+}
+function resetFormulario(containerId){
+  const el=document.getElementById(containerId);
+  el.dataset.tipo=''; el.dataset.coord='';
+  document.querySelectorAll('#'+containerId+' .chip').forEach(c=>c.classList.remove('sel'));
+  document.querySelector('.campos-extra-'+containerId).style.display='none';
+  ['f-longitud','f-diametro','f-material','f-cuadrilla','f-obs','f-tipo-inf'].forEach(cls=>{
+    const e=document.querySelector('#'+containerId+' .'+cls); if(e) e.value='';
+  });
+  const ct=el.querySelector('.f-coord-txt'); if(ct) ct.textContent='Sin ubicación';
+  const cv=el.querySelector('.f-coord-val'); if(cv) cv.textContent='';
+  const btn=document.querySelector('#'+containerId+' .f-guardar'); if(btn) btn.disabled=true;
+}
+
+// ══════════════════════════════════════════
+// BOTTOM SHEET
+// ══════════════════════════════════════════
+function abrirSheet(){
+  document.getElementById('sheet').classList.add('open');
+  // Si el panel lateral estaba abierto en móvil, cerrarlo para dar espacio al mapa
+  document.getElementById('panel').classList.add('col');
+  setTimeout(()=>MAP.invalidateSize(),280);
+}
+function cerrarSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  if(window._tmpMkr){ MAP.removeLayer(window._tmpMkr); window._tmpMkr=null; }
+  resetFormulario('form-mobile');
+  modoClick=false; MAP.getContainer().style.cursor='';
+}
+
+// ══════════════════════════════════════════
+// GPS Y CLICK EN MAPA
+// ══════════════════════════════════════════
+window.usarGPS=function(btn){
+  if(btn) btn.textContent='📡 Buscando…';
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const ll=L.latLng(pos.coords.latitude,pos.coords.longitude);
+      setCoordForm(ll);
+      MAP.setView(ll,17);
+      if(btn) btn.textContent='📍 GPS ✓';
+    },
+    err=>{ toast('⚠️ GPS: '+err.message); if(btn) btn.textContent='📍 GPS'; },
+    {enableHighAccuracy:true,timeout:12000}
+  );
+};
+function setCoord(ll){ setCoordForm(ll); desactivarClickMapa(); }
+function desactivarClickMapa(){ modoClick=false; MAP.getContainer().style.cursor=''; }
+function activarClickMapa(){ modoClick=true; MAP.getContainer().style.cursor='crosshair'; toast('👆 Toca el mapa en la ubicación exacta'); }
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function mkPopup(key,props,label){
+  const c=COLORS[key]||'#aaa';
+  const filas=Object.entries(props||{}).filter(([,v])=>v)
+    .map(([k,v])=>`<div class="prow"><span class="pkey">${k}</span><span class="pval">${v}</span></div>`).join('');
+  return`<div class="ph"><div class="pdot" style="background:${c}"></div>
+    <div class="ptitle">${label||key}</div></div>
+    <div class="pb2">${filas||'<span style="font-size:10px;color:var(--muted)">Sin atributos</span>'}</div>`;
+}
 function calcLong(geo){
   let t=0;
   (geo.features||[]).forEach(f=>{
@@ -943,83 +1078,16 @@ function calcLong(geo){
             f.geometry?.type==='MultiLineString'?f.geometry.coordinates.flat():[];
     for(let i=0;i<c.length-1;i++) t+=L.latLng(c[i][1],c[i][0]).distanceTo(L.latLng(c[i+1][1],c[i+1][0]));
   });
-  const m=Math.round(t);
-  return m>=1000?(m/1000).toFixed(2)+' km':m+' m';
+  const m=Math.round(t); return m>=1000?(m/1000).toFixed(2)+' km':m+' m';
 }
-
-function mostrarCamposTipo(tipo){
-  const esLinea=['Zanja Abierta','Tendido','Zanja Tapada'].includes(tipo);
-  const esPunto=['Válvula','Cámara','Acometida'].includes(tipo);
-  document.getElementById('campos-linea').style.display=esLinea?'block':'none';
-  document.getElementById('campos-punto').style.display=esPunto?'block':'none';
-  document.getElementById('campo-prueba').style.display=tipo==='Tendido'?'block':'none';
-  document.getElementById('btn-guardar').disabled=false;
-}
-
-function resetForm(){
-  tipoSel=null; selCoord=null;
-  document.querySelectorAll('#chips-tipo .chip,.chips .chip').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('campos-contenido').style.display='none';
-  ['f-longitud','f-diametro','f-material','f-cuadrilla','f-obs','f-tipo-inf'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
-  document.getElementById('coord-display').textContent='Toca el mapa o usa GPS';
-  document.getElementById('coord-val').textContent='';
-  document.getElementById('btn-guardar').disabled=true;
-}
-
-function setCoord(latlng){
-  selCoord=latlng;
-  document.getElementById('coord-display').textContent='Ubicación establecida ✓';
-  document.getElementById('coord-val').textContent=
-    latlng.lat.toFixed(6)+', '+latlng.lng.toFixed(6);
-  if(tipoSel) document.getElementById('btn-guardar').disabled=false;
-  // Marcador temporal
-  if(window._tmpMarker) MAP.removeLayer(window._tmpMarker);
-  window._tmpMarker=L.circleMarker(latlng,{radius:10,color:'#fff',fillColor:'#1f6feb',
-    fillOpacity:1,weight:3}).addTo(MAP);
-  toast('📍 Posición registrada');
-}
-
-window.usarGPS=function(){
-  cerrarModal();
-  toast('📡 Obteniendo GPS…');
-  navigator.geolocation.getCurrentPosition(
-    pos=>{ setCoord(L.latLng(pos.coords.latitude,pos.coords.longitude));
-      MAP.setView([pos.coords.latitude,pos.coords.longitude],17); },
-    err=>toast('⚠️ GPS: '+err.message),
-    {enableHighAccuracy:true,timeout:10000}
-  );
-};
-
-window.activarClickMapa=function(){
-  cerrarModal(); modoClick=true;
-  toast('👆 Toca el mapa en la ubicación exacta');
-  MAP.getContainer().style.cursor='crosshair';
-};
-
-function desactivarClickMapa(){
-  modoClick=false;
-  MAP.getContainer().style.cursor='';
-}
-
-window.cerrarModal=function(){
-  document.getElementById('modal-pos').classList.remove('open');
-};
-
-function setSyncStatus(estado,txt){
-  const el=document.getElementById('sync');
-  el.className=estado;
-  document.getElementById('sync-txt').textContent=txt;
-}
-
+function setSyncStatus(s,t){ const el=document.getElementById('sync');
+  el.className=s; document.getElementById('sync-txt').textContent=t; }
 let _tt;
 window.toast=function(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),2500);
 };
-window.eliminarRegistro=eliminarRegistro;
 </script>
 </body>
 </html>
